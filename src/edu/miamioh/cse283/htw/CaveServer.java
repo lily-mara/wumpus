@@ -5,5 +5,5 @@ public class CaveServer extends Server {
 	// 
 	// send cave description to client
 	// client sends actions to server
-	// 
+	// (play the game)
 }
