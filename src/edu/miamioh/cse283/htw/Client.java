@@ -23,7 +23,15 @@ public class Client {
 	 *            {@link CaveSystemServer}
 	 */
 	public void run(String[] args) {
-
+		try {
+			connect(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
+		} catch (NumberFormatException e) {
+			System.err.println("Malformed port value");
+			return;
+		} catch (UnknownHostException e) {
+			System.err.println("Invalid server address");
+			return;
+		}
 	}
 
 	/**
