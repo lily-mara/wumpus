@@ -1,6 +1,6 @@
 package edu.miamioh.cse283.htw;
 
-import java.io.IOException;
+import java.io.*;
 import java.net.*;
 
 public class Client {
@@ -27,11 +27,16 @@ public class Client {
 	 * 
 	 * @param port
 	 *            Port # for a {@link CaveSystemServer}
-	 * @throws IOException 
+	 * @throws IOException
 	 */
 	public void run(InetAddress serverAddress, int port) throws IOException {
 		server = new Socket(serverAddress, port);
-		System.out.println("HEY");
+		BufferedReader in = new BufferedReader(new InputStreamReader(
+				server.getInputStream()));
+		PrintWriter out = new PrintWriter(server.getOutputStream(), true);
+
+		System.out.println(in.readLine());
+		System.out.println(in.readLine());		
 	}
 
 	/**
