@@ -10,17 +10,19 @@ public class CaveServer {
 	// client sends actions to server
 	// (play the game)
 	protected ServerSocket clientSocket;
-	protected ServerSocket caveSystemServerSocket;
+	protected Socket caveSystemServerSocket;
 
 	public static void main(String[] args) throws NumberFormatException,
 			IOException {
-		CaveServer c = new CaveServer(Integer.parseInt(args[0]));
+		CaveServer c = new CaveServer(Integer.parseInt(args[0]),
+				InetAddress.getByName(args[1]), Integer.parseInt(args[2]));
 		c.run();
 	}
 
-	public CaveServer(int basePort) throws IOException {
+	public CaveServer(int basePort, InetAddress CSSAddress, int CSSPort)
+			throws IOException {
 		clientSocket = new ServerSocket(basePort);
-		caveSystemServerSocket = new ServerSocket(basePort + 1);
+		caveSystemServerSocket = new Socket(CSSAddress, CSSPort);
 	}
 
 	public void run() throws IOException {
@@ -39,13 +41,10 @@ public class CaveServer {
 
 		public void run() {
 			try {
-				BufferedReader in = new BufferedReader(new InputStreamReader(
-						client.getInputStream()));
-				PrintWriter out = new PrintWriter(client.getOutputStream(),
-						true);
+				SocketCommunicator s = new SocketCommunicator(client);
 
-				out.println("localhost");
-				out.println("" + 1235);
+				s.send("You're on the cave server!");
+				s.send("" + 1235);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}

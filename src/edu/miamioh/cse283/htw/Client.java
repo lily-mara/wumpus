@@ -31,12 +31,15 @@ public class Client {
 	 */
 	public void run(InetAddress serverAddress, int port) throws IOException {
 		server = new Socket(serverAddress, port);
-		BufferedReader in = new BufferedReader(new InputStreamReader(
-				server.getInputStream()));
-		PrintWriter out = new PrintWriter(server.getOutputStream(), true);
+		SocketCommunicator serverComm = new SocketCommunicator(server);
 
-		System.out.println(in.readLine());
-		System.out.println(in.readLine());		
+		InetAddress caveAddr = InetAddress.getByName(serverComm.receive());
+		int cavePort = Integer.parseInt(serverComm.receive());
+
+		Socket cave = new Socket(caveAddr, cavePort);
+		SocketCommunicator caveComm = new SocketCommunicator(cave);
+
+		System.out.println(caveComm.receive());
 	}
 
 	/**
