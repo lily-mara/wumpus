@@ -3,6 +3,10 @@ package edu.miamioh.cse283.htw;
 import java.io.*;
 import java.net.*;
 
+/**
+ * The server that manages the entire Cave System. Each Cave System is comprised
+ * of multiple caves that are represented by {@link CaveServer}s.
+ */
 public class CaveSystemServer {
 	// networking code
 	//
