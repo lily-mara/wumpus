@@ -43,8 +43,20 @@ public class CaveServer {
 			try {
 				SocketCommunicator s = new SocketCommunicator(client);
 
+				s.send("MSG");
 				s.send("You're on the cave server!");
-				s.send("" + 1235);
+				s.send("SENSE");
+				s.send("You smell a Wumpus");
+
+				s.send("CHOICES");
+				s.send("CHOICE");
+				s.send("1");
+				s.send("CHOICE");
+				s.send("2");
+				s.send("CHOICE");
+				s.send("3");
+				s.send("END_CHOICES");
+
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
