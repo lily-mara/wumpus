@@ -38,6 +38,31 @@ public class Client {
 
 		Socket cave = new Socket(caveAddr, cavePort);
 		SocketCommunicator caveComm = new SocketCommunicator(cave);
+		
+		String line = "";
+		
+		while ((line = caveComm.receive()) != null) {
+			if (line.startsWith("MSG")) {
+				line = caveComm.receive();
+				System.out.println(line);
+			} else if (line.startsWith("SENSE")) {
+				line = caveComm.receive();
+				System.out.println(line);
+			} else if (line.startsWith("CHOICES")) {
+				System.out.print("You can go to the following rooms: ");
+				while (!(line = caveComm.receive()).equals("END_CHOICES")) {
+					if (line.startsWith("CHOICE")) {
+						line = caveComm.receive();
+						System.out.print(line + " ");
+					}
+				}
+				System.out.println();
+			} else if (line.startsWith("ROOM")) {
+				line = caveComm.receive();
+				System.out.println("You are in room " + line);
+			}
+			System.out.println();
+		}
 
 		System.out.println(caveComm.receive());
 	}
