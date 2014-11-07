@@ -13,15 +13,15 @@ public class CaveSystemServer {
 
 	public static void main(String[] args) {
 		try {
-			CaveSystemServer s = new CaveSystemServer();
-			s.run(Integer.parseInt(args[0]));
+			CaveSystemServer s = new CaveSystemServer(Integer.parseInt(args[0]));
+			s.run();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * The main execution logic for the {@link CaveSystemServer}
+	 * Construct a {@link CaveSystemServer} that listens on the specified ports
 	 * 
 	 * @param basePort
 	 *            Port number that this should start listening on for
@@ -30,10 +30,18 @@ public class CaveSystemServer {
 	 * 
 	 * @throws IOException
 	 */
-	public void run(int basePort) throws IOException {
+	public CaveSystemServer(int basePort) throws IOException {
 		clientSocket = new ServerSocket(basePort);
 		caveSocket = new ServerSocket(basePort + 1);
+	}
 
+	/**
+	 * The main execution logic for the {@link CaveSystemServer}; start
+	 * listening for {@link Client} and {@link CaveServer} connections.
+	 * 
+	 * @throws IOException
+	 */
+	public void run() throws IOException {
 		while (true) {
 			clientSocket.accept();
 		}
