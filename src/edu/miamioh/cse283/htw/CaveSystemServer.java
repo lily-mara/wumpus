@@ -1,36 +1,41 @@
 package edu.miamioh.cse283.htw;
 
 import java.io.*;
+import java.net.*;
 
-public class CaveSystemServer extends Server {
+public class CaveSystemServer {
 	// networking code
 	//
 	// manage new cave servers
-	public final static int PORT = 4484;
+
+	protected ServerSocket clientSocket;
+	protected ServerSocket caveSocket;
 
 	public static void main(String[] args) {
 		try {
-			CaveSystemServer c = new CaveSystemServer();
-			c.run();
+			CaveSystemServer s = new CaveSystemServer();
+			s.run(Integer.parseInt(args[0]));
 		} catch (IOException e) {
-			// e.printStackTrace();
-			System.err.println("There was a problem, please try again later.");
+			e.printStackTrace();
 		}
 	}
 
 	/**
-	 * Construct a new {@link CaveSystemServer}
+	 * The main execution logic for the {@link CaveSystemServer}
+	 * 
+	 * @param basePort
+	 *            Port number that this should start listening on for
+	 *            {@link Client}s. Will listen for {@link CaveServer}s on
+	 *            basePort+1
 	 * 
 	 * @throws IOException
 	 */
-	public CaveSystemServer() throws IOException {
-		super(PORT);
-	}
+	public void run(int basePort) throws IOException {
+		clientSocket = new ServerSocket(basePort);
+		caveSocket = new ServerSocket(basePort + 1);
 
-	/**
-	 * The main execution logic for the {@link CaveSystemServer}
-	 */
-	public void run() {
-
+		while (true) {
+			clientSocket.accept();
+		}
 	}
 }

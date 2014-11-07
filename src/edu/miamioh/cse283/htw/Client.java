@@ -1,5 +1,6 @@
 package edu.miamioh.cse283.htw;
 
+import java.io.IOException;
 import java.net.*;
 
 public class Client {
@@ -10,28 +11,27 @@ public class Client {
 	// send actions to server
 	// receive messages from server
 
-	public static void main(String[] args) {
+	protected Socket server;
+
+	public static void main(String[] args) throws NumberFormatException,
+			IOException {
 		Client c = new Client();
-		c.run(args);
+		c.run(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
 	}
 
 	/**
 	 * plays the game
 	 * 
-	 * @param args
-	 *            holds the IP address and port number for a
-	 *            {@link CaveSystemServer}
+	 * @param server
+	 *            IP address for a {@link CaveSystemServer}
+	 * 
+	 * @param port
+	 *            Port # for a {@link CaveSystemServer}
+	 * @throws IOException 
 	 */
-	public void run(String[] args) {
-		try {
-			connect(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
-		} catch (NumberFormatException e) {
-			System.err.println("Malformed port value");
-			return;
-		} catch (UnknownHostException e) {
-			System.err.println("Invalid server address");
-			return;
-		}
+	public void run(InetAddress serverAddress, int port) throws IOException {
+		server = new Socket(serverAddress, port);
+		System.out.println("HEY");
 	}
 
 	/**
