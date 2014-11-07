@@ -47,7 +47,20 @@ public class CaveSystemServer {
 	 */
 	public void run() throws IOException {
 		while (true) {
-			clientSocket.accept();
+			Socket client = clientSocket.accept();
+			(new Thread(new ServerThread(client))).start();
+		}
+	}
+
+	public class ServerThread implements Runnable {
+		protected Socket client;
+
+		public ServerThread(Socket client) {
+			this.client = client;
+		}
+
+		public void run() {
+
 		}
 	}
 }
