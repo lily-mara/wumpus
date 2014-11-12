@@ -1,93 +1,67 @@
 package edu.miamioh.cse283.htw;
 
-import java.io.*;
 import java.net.*;
 
+/**
+ * Client (player) for the Hunt the Wumpus game.
+ *
+ */
 public class Client {
-	// networking code
-	//
-	// connecting
-	// handoff
-	// send actions to server
-	// receive messages from server
 
-	protected Socket server;
+	/** Proxy object that connects the client to its current cave. */
+	protected CaveProxy cave;
 
-	public static void main(String[] args) throws NumberFormatException,
-			IOException {
-		Client c = new Client();
-		c.run(InetAddress.getByName(args[0]), Integer.parseInt(args[1]));
+	/** Constructor. */
+	public Client(CaveProxy cave) {
+		this.cave = cave;
+	}
+
+	/** Returns true if the player is still alive. */
+	public synchronized boolean isAlive() {
+		return true;
 	}
 
 	/**
-	 * plays the game
+	 * Plays the game.
 	 * 
-	 * @param server
-	 *            IP address for a {@link CaveSystemServer}
-	 * 
-	 * @param port
-	 *            Port # for a {@link CaveSystemServer}
-	 * @throws IOException
+	 * @param args
+	 *            holds address and port number for the CaveSystemServer this
+	 *            client will connect to.
 	 */
-	public void run(InetAddress serverAddress, int port) throws IOException {
-		server = new Socket(serverAddress, port);
-		SocketCommunicator serverComm = new SocketCommunicator(server);
+	public void run() {
+		try {
+			// all clients initially experience a handoff:
+			cave = cave.handoff();
+			System.out.println(cave.getMessage());
 
-		InetAddress caveAddr = InetAddress.getByName(serverComm.receive());
-		int cavePort = Integer.parseInt(serverComm.receive());
+			// now start the sense and respond loop:
+			while (isAlive()) {
+				System.out.println(cave.getSenses());
 
-		Socket cave = new Socket(caveAddr, cavePort);
-		SocketCommunicator caveComm = new SocketCommunicator(cave);
-		
-		String line = "";
-		
-		while ((line = caveComm.receive()) != null) {
-			if (line.startsWith("MSG")) {
-				line = caveComm.receive();
-				System.out.println(line);
-			} else if (line.startsWith("SENSE")) {
-				line = caveComm.receive();
-				System.out.println(line);
-			} else if (line.startsWith("CHOICES")) {
-				System.out.print("You can go to the following rooms: ");
-				while (!(line = caveComm.receive()).equals("END_CHOICES")) {
-					if (line.startsWith("CHOICE")) {
-						line = caveComm.receive();
-						System.out.print(line + " ");
-					}
-				}
-				System.out.println();
-			} else if (line.startsWith("ROOM")) {
-				line = caveComm.receive();
-				System.out.println("You are in room " + line);
+				// get an action from the player, and
+				// send it to the cave server.
+				cave.sendAction("move 1");
+
 			}
-			System.out.println();
+
+		} catch (Exception ex) {
+			// If an exception is thrown, we can't fix it here -- Crash.
+			ex.printStackTrace();
+			System.exit(1);
 		}
-
-		System.out.println(caveComm.receive());
 	}
 
 	/**
-	 * connects to a given server
+	 * Main method for clients.
 	 * 
-	 * @param address
-	 *            the address of the {@link Server}
-	 * @param port
-	 *            the port number of the {@link Server}
+	 * @param args
+	 *            contains the hostname and port number of the server that this
+	 *            client should connect to.
 	 */
-	public void connect(InetAddress address, int port) {
-
-	}
-
-	/**
-	 * transfers this client to a new {@link Server}
-	 * 
-	 * @param address
-	 *            the address of the {@link Server}
-	 * @param port
-	 *            the port number of the {@link Server}
-	 */
-	public void handoff(InetAddress address, int port) {
-
+	public static void main(String[] args) throws Exception {
+		CaveProxy cave = new CaveProxy(new Socket(
+				InetAddress.getByName(args[0]), Integer.parseInt(args[1])));
+		Client c = new Client(cave);
+		c.run();
 	}
 }
