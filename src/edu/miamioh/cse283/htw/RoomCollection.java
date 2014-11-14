@@ -1,9 +1,9 @@
 package edu.miamioh.cse283.htw;
 
-public class CaveCollection {
+public class RoomCollection {
 	private Room[] rooms;
 
-	public CaveCollection() {
+	public RoomCollection() {
 		rooms = new Room[20];
 		for (int i = 0; i < 20; i++) {
 			rooms[i] = new Room(i + 1);
