@@ -23,16 +23,13 @@ public class CaveServer {
 	protected CaveSystemServerProxy caveSystem;
 
 	/** Rooms in this CaveServer. */
-	protected ArrayList<Room> rooms;
+	protected RoomCollection rooms;
 
 	/** Constructor. */
 	public CaveServer(CaveSystemServerProxy caveSystem, int portBase) {
 		this.caveSystem = caveSystem;
 		this.portBase = portBase;
-		rooms = new ArrayList<Room>();
-		for (int i = 0; i < 20; ++i) {
-			rooms.add(new Room());
-		}
+		rooms = new RoomCollection();
 	}
 
 	/** Returns the port number to use for accepting client connections. */
