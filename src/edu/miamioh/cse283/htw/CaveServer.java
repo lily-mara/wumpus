@@ -1,7 +1,7 @@
 package edu.miamioh.cse283.htw;
 
 import java.net.*;
-import java.util.*;
+import java.util.regex.*;
 
 /**
  * The CaveServer class takes the following command-line parameters:
@@ -87,7 +87,13 @@ public class CaveServer {
 					client.message("");
 					// -- and retrieve their action:
 					String action = client.getAction();
-					// -- and perform the action
+
+					String move = "M\\s+(\\d+)";
+					if (action.matches(move)) {
+						Matcher matcher = Pattern.compile(move).matcher(action);
+						int roomToMoveTo = Integer.parseInt(matcher.group(1));
+						client.setCurrentRoom(rooms.get(roomToMoveTo));
+					}
 				}
 				client.message("You have died. Play again?");
 
