@@ -3,12 +3,12 @@ package edu.miamioh.cse283.htw;
 import java.util.*;
 
 public class Room {
-	public final int EMPTY = 0;
-	public final int WUMPUS = 1;
-	public final int GOLD = 2;
-	public final int HOLE = 3;
-	public final int BATS = 4;
-	public final int OTHER_PLAYERS = 5;
+	public static final int EMPTY = 0;
+	public static final int WUMPUS = 1;
+	public static final int GOLD = 2;
+	public static final int HOLE = 3;
+	public static final int BATS = 4;
+	public static final int OTHER_PLAYERS = 5;
 
 	public ArrayList<ClientProxy> players;
 	private ArrayList<Room> connections;
@@ -19,7 +19,7 @@ public class Room {
 		players = new ArrayList<ClientProxy>();
 		connections = new ArrayList<Room>();
 		this.n = n;
-		contents = EMPTY;
+		contents = WUMPUS;
 	}
 
 	public void addBidirectionalConnection(Room other) {
@@ -74,6 +74,6 @@ public class Room {
 				senses.add(r.getSense());
 			}
 		}
-		return (String[]) senses.toArray();
+		return senses.toArray(new String[senses.size()]);
 	}
 }
