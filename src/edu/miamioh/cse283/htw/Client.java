@@ -46,11 +46,13 @@ public class Client {
 			// now start the sense and respond loop:
 			while (isAlive()) {
 				System.out.println(cave.getSenses());
+				System.out.println(cave.getMessage());
+				System.out.println(cave.getMessage());
 
 				// get an action from the player, and
 				// send it to the cave server.
 				System.out.print("Shoot, Move, or Quit (S-M-Q) ");
-				cave.sendAction(keyboard.next());
+				cave.sendAction(keyboard.nextLine());
 			}
 
 		} catch (Exception ex) {

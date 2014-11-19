@@ -84,13 +84,13 @@ public class CaveServer {
 					}
 					client.message("You are in room " + client.getCurrentRoom().getNumber());
 					client.message(client.getCurrentRoom().tunnelMessage());
-					client.message("");
 					// -- and retrieve their action:
 					String action = client.getAction();
 
 					String move = "M\\s+(\\d+)";
 					if (action.matches(move)) {
 						Matcher matcher = Pattern.compile(move).matcher(action);
+						matcher.find();
 						int roomToMoveTo = Integer.parseInt(matcher.group(1));
 						client.setCurrentRoom(rooms.get(roomToMoveTo));
 					}
