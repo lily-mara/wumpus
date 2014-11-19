@@ -15,6 +15,8 @@ public class RoomCollection {
 
 		rooms[0].addBidirectionalConnection(rooms[19]);
 
+		// evenly distribute the game objects between the rooms
+		// initial room should be safe
 		int[] assignments = Utils.nRand(5, 1, 20);
 		rooms[assignments[0]].setContents(Room.WUMPUS);
 		rooms[assignments[1]].setContents(Room.GOLD);
