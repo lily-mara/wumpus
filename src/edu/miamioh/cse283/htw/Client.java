@@ -49,6 +49,7 @@ public class Client {
 
 				// get an action from the player, and
 				// send it to the cave server.
+				System.out.print("Shoot, Move, or Quit (S-M-Q) ");
 				cave.sendAction(keyboard.next());
 			}
 
