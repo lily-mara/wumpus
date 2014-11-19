@@ -25,4 +25,8 @@ public class Room {
 	public int getNumber() {
 		return n;
 	}
+
+	public void addPlayer(ClientProxy client) {
+		players.add(client);
+	}
 }
