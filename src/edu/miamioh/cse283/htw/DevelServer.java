@@ -15,7 +15,7 @@ public class DevelServer {
 
 	public static class CaveSystemServerDevel implements Runnable {
 		public void run() {
-			String[] caveSystemServerArgs = { "1234" };
+			String[] caveSystemServerArgs = {"1234"};
 			try {
 				CaveSystemServer.main(caveSystemServerArgs);
 			} catch (Exception e) {
@@ -26,7 +26,7 @@ public class DevelServer {
 
 	public static class CaveServerDevel implements Runnable {
 		public void run() {
-			String[] caveServerArgs = { "localhost", "1234", "2000" };
+			String[] caveServerArgs = {"localhost", "1234", "2000"};
 			try {
 				CaveServer.main(caveServerArgs);
 			} catch (Exception e) {
@@ -37,7 +37,7 @@ public class DevelServer {
 
 	public static class ClientDevel implements Runnable {
 		public void run() {
-			String[] clientArgs = { "localhost", "1234" };
+			String[] clientArgs = {"localhost", "1234"};
 			try {
 				Client.main(clientArgs);
 			} catch (Exception e) {

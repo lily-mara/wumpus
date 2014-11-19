@@ -21,7 +21,7 @@ public class Room {
 	public Room[] getConnections() {
 		return (Room[]) connections.toArray();
 	}
-	
+
 	public int getNumber() {
 		return n;
 	}

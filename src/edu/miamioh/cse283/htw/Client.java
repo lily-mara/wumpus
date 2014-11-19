@@ -4,35 +4,36 @@ import java.net.*;
 
 /**
  * Client (player) for the Hunt the Wumpus game.
- * 
+ * <p/>
  * The Client class takes the following command-line parameters:
- * 
+ * <p/>
  * <Hostname of CaveSystemServer> <port number of CaveSystemServer>
- * 
+ * <p/>
  * E.g., "localhost 1234"
- *
  */
 public class Client {
 
-	/** Proxy object that connects the client to its current cave. */
+	/**
+	 * Proxy object that connects the client to its current cave.
+	 */
 	protected CaveProxy cave;
 
-	/** Constructor. */
+	/**
+	 * Constructor.
+	 */
 	public Client(CaveProxy cave) {
 		this.cave = cave;
 	}
 
-	/** Returns true if the player is still alive. */
+	/**
+	 * Returns true if the player is still alive.
+	 */
 	public synchronized boolean isAlive() {
 		return true;
 	}
 
 	/**
 	 * Plays the game.
-	 * 
-	 * @param args
-	 *            holds address and port number for the CaveSystemServer this
-	 *            client will connect to.
 	 */
 	public void run() {
 		try {
@@ -59,10 +60,9 @@ public class Client {
 
 	/**
 	 * Main method for clients.
-	 * 
-	 * @param args
-	 *            contains the hostname and port number of the server that this
-	 *            client should connect to.
+	 *
+	 * @param args contains the hostname and port number of the server that this
+	 *             client should connect to.
 	 */
 	public static void main(String[] args) throws Exception {
 		InetAddress addr = InetAddress.getByName("localhost");
