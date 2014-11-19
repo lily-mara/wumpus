@@ -46,6 +46,10 @@ public class Room {
 				client.message("You hear a snarl and turn to see the crazed Wumpus just before he eats you alive!");
 				client.kill();
 				return;
+			case HOLE:
+				client.message("You are sent down a bottomless pit, never to be seen again..");
+				client.kill();
+				return;
 		}
 		players.add(client);
 	}
