@@ -23,12 +23,30 @@ public class ClientProxy {
 	protected PrintWriter out;
 
 	/**
+	 * The current room that this player is in
+	 */
+	protected Room currentRoom;
+
+	/**
 	 * Constructor.
 	 */
 	public ClientProxy(Socket s) throws Exception {
 		this.s = s;
 		this.out = new PrintWriter(s.getOutputStream(), true);
 		this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		this.currentRoom = null;
+	}
+
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+
+	public void setCurrentRoom(Room newRoom) {
+		if (currentRoom != null) {
+			currentRoom.removePlayer(this);
+		}
+		newRoom.addPlayer(this);
+		currentRoom = newRoom;
 	}
 
 	/**
