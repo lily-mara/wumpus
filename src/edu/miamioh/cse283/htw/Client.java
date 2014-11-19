@@ -47,7 +47,7 @@ public class Client {
 
 				// get an action from the player, and
 				// send it to the cave server.
-				cave.sendAction("move 1");
+				// cave.sendAction("move 1");
 
 			}
 
