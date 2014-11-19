@@ -99,11 +99,8 @@ public class CaveServer {
 			caveSystem.register(clientSocket);
 
 			while (true) {
-				// and now loop forever, accepting client connections:
-				while (true) {
-					ClientProxy client = new ClientProxy(clientSocket.accept());
-					(new Thread(new ClientThread(client))).start();
-				}
+				ClientProxy client = new ClientProxy(clientSocket.accept());
+				(new Thread(new ClientThread(client))).start();
 			}
 		} catch (Exception ex) {
 			// If an exception is thrown, we can't fix it here -- Crash.
