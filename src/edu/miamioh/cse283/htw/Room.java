@@ -36,6 +36,12 @@ public class Room {
 	}
 
 	public void addPlayer(ClientProxy client) {
+		switch (contents) {
+			case WUMPUS:
+				client.message("You hear a snarl and turn to see the crazed Wumpus just before he eats you alive!");
+				client.kill();
+				return;
+		}
 		players.add(client);
 	}
 
