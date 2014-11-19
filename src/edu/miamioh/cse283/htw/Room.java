@@ -76,4 +76,12 @@ public class Room {
 		}
 		return senses.toArray(new String[senses.size()]);
 	}
+
+	public String tunnelMessage() {
+		String tunnels = "Tunnels lead to";
+		for (Room r : connections) {
+			tunnels += " " + r.getNumber();
+		}
+		return tunnels;
+	}
 }
