@@ -21,7 +21,7 @@ public class CaveProxy {
 	protected InetAddress remoteClientAddress;
 
 	/**
-	 * Port numberthat should be used by clients to connect to this cave server.
+	 * Port number that should be used by clients to connect to this cave server.
 	 */
 	protected int remoteClientPort;
 
