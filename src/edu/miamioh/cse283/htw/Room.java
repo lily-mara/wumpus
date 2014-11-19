@@ -31,6 +31,10 @@ public class Room {
 	}
 
 	public void removePlayer(ClientProxy client) {
-		players.remove(client);
+		for (int i = 0; i < players.size(); i++) {
+			if (players.get(i) == client) {
+				players.remove(i);
+			}
+		}
 	}
 }
