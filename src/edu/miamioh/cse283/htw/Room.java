@@ -29,4 +29,8 @@ public class Room {
 	public void addPlayer(ClientProxy client) {
 		players.add(client);
 	}
+
+	public void removePlayer(ClientProxy client) {
+		players.remove(client);
+	}
 }
