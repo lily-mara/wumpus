@@ -9,6 +9,7 @@ public class Room {
 	public static final int HOLE = 3;
 	public static final int BATS = 4;
 	public static final int OTHER_PLAYERS = 5;
+	public static final int ARROWS = 6;
 
 	public ArrayList<ClientProxy> players;
 	private ArrayList<Room> connections;
@@ -73,6 +74,8 @@ public class Room {
 				return "You hear the whistling wind";
 			case GOLD:
 				return "You see the shimmering light of gold!";
+			case ARROWS:
+				return "You hear the clack of arrows against the wall.";
 		}
 		return "You see nothing... nothing!";
 	}
