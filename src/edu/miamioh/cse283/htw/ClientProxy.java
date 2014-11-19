@@ -49,6 +49,10 @@ public class ClientProxy {
 		currentRoom = newRoom;
 	}
 
+	public boolean isAlive() {
+		return true;
+	}
+
 	/**
 	 * Handoff this client to the given cave.
 	 */
