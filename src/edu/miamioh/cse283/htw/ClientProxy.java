@@ -27,6 +27,8 @@ public class ClientProxy {
 	 */
 	protected Room currentRoom;
 
+	protected boolean alive;
+
 	/**
 	 * Constructor.
 	 */
@@ -35,6 +37,7 @@ public class ClientProxy {
 		this.out = new PrintWriter(s.getOutputStream(), true);
 		this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 		this.currentRoom = null;
+		this.alive = true;
 	}
 
 	public Room getCurrentRoom() {
@@ -49,8 +52,12 @@ public class ClientProxy {
 		currentRoom = newRoom;
 	}
 
+	public void kill() {
+		alive = false;
+	}
+
 	public boolean isAlive() {
-		return true;
+		return alive;
 	}
 
 	/**
