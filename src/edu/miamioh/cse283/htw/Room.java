@@ -3,14 +3,23 @@ package edu.miamioh.cse283.htw;
 import java.util.*;
 
 public class Room {
+	public final int EMPTY = 0;
+	public final int WUMPUS = 1;
+	public final int GOLD = 2;
+	public final int HOLE = 3;
+	public final int BATS = 4;
+	public final int OTHER_PLAYERS = 5;
+
 	public ArrayList<ClientProxy> players;
 	private ArrayList<Room> connections;
 	private int n;
+	private int contents;
 
 	public Room(int n) {
 		players = new ArrayList<ClientProxy>();
 		connections = new ArrayList<Room>();
 		this.n = n;
+		contents = EMPTY;
 	}
 
 	public void addBidirectionalConnection(Room other) {
@@ -36,5 +45,35 @@ public class Room {
 				players.remove(i);
 			}
 		}
+	}
+
+	public boolean hasSense() {
+		return contents != EMPTY;
+	}
+
+	public String getSense() {
+		switch (contents) {
+			case WUMPUS:
+				return "You smell the smelly smell of a Wumpus";
+			case OTHER_PLAYERS:
+				return "You hear another adventurer knocking an arrow";
+			case BATS:
+				return "You hear the screech of the bats";
+			case HOLE:
+				return "You hear the whistling wind";
+			case GOLD:
+				return "You see the shimmering light of gold!";
+		}
+		return "You see nothing... nothing!";
+	}
+
+	public String[] getSenses() {
+		ArrayList<String> senses = new ArrayList<String>();
+		for (Room r : connections) {
+			if (r.hasSense()) {
+				senses.add(r.getSense());
+			}
+		}
+		return (String[]) senses.toArray();
 	}
 }
