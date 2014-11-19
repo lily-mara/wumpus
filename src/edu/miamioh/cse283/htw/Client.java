@@ -1,6 +1,7 @@
 package edu.miamioh.cse283.htw;
 
 import java.net.*;
+import java.util.*;
 
 /**
  * Client (player) for the Hunt the Wumpus game.
@@ -37,6 +38,7 @@ public class Client {
 	 */
 	public void run() {
 		try {
+			Scanner keyboard = new Scanner(System.in);
 			// all clients initially experience a handoff:
 			cave = cave.handoff();
 			System.out.println(cave.getMessage());
@@ -47,8 +49,7 @@ public class Client {
 
 				// get an action from the player, and
 				// send it to the cave server.
-				// cave.sendAction("move 1");
-
+				cave.sendAction(keyboard.next());
 			}
 
 		} catch (Exception ex) {
