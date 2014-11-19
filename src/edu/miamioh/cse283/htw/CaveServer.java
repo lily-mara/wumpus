@@ -79,9 +79,11 @@ public class CaveServer {
 				while (client.isAlive()) {
 					// now, in a loop while the player is alive:
 					// -- send the player their "senses":
+					client.message("You are in room " + client.getCurrentRoom().getNumber());
 					for (String s : client.getCurrentRoom().getSenses()) {
 						client.senses(s);
 					}
+					client.message("");
 					// -- and retrieve their action:
 					String action = client.getAction();
 					// -- and perform the action
