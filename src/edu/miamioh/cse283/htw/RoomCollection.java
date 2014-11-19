@@ -41,4 +41,8 @@ public class RoomCollection {
 
 		return adjacentNumbers;
 	}
+
+	public Room getStartingRoom() {
+		return rooms[0];
+	}
 }
