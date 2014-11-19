@@ -22,6 +22,10 @@ public class Room {
 		contents = EMPTY;
 	}
 
+	public void setContents(int newContents) {
+		contents = newContents;
+	}
+
 	public void addBidirectionalConnection(Room other) {
 		connections.add(other);
 		other.connections.add(this);
