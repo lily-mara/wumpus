@@ -19,7 +19,7 @@ public class Room {
 		players = new ArrayList<ClientProxy>();
 		connections = new ArrayList<Room>();
 		this.n = n;
-		contents = WUMPUS;
+		contents = EMPTY;
 	}
 
 	public void addBidirectionalConnection(Room other) {
