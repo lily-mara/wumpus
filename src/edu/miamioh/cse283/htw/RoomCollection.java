@@ -16,8 +16,19 @@ public class RoomCollection {
 		rooms[0].addBidirectionalConnection(rooms[19]);
 	}
 
+	/**
+	 * Returns the {@link edu.miamioh.cse283.htw.Room} with the given number
+	 *
+	 * @param roomNumber the number to search for in this RoomCollection
+	 * @return the first {@link edu.miamioh.cse283.htw.Room} with a number matching roomNumber, or null if one doesn't exist
+	 */
 	public Room get(int roomNumber) {
-		return rooms[roomNumber - 1];
+		for (Room r : rooms) {
+			if (r.getNumber() == roomNumber) {
+				return r;
+			}
+		}
+		return null;
 	}
 
 	public int[] getAdjacentRooms(Room test) {
