@@ -14,6 +14,13 @@ public class RoomCollection {
 		}
 
 		rooms[0].addBidirectionalConnection(rooms[19]);
+
+		int[] assignments = Utils.nRand(5, 1, 20);
+		rooms[assignments[0]].setContents(Room.WUMPUS);
+		rooms[assignments[1]].setContents(Room.GOLD);
+		rooms[assignments[2]].setContents(Room.HOLE);
+		rooms[assignments[3]].setContents(Room.BATS);
+		rooms[assignments[4]].setContents(Room.ARROWS);
 	}
 
 	/**
