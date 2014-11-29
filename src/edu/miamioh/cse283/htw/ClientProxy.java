@@ -26,6 +26,8 @@ public class ClientProxy {
 	 */
 	protected PrintWriter out;
 
+	protected Room currentRoom;
+
 	/**
 	 * Constructor.
 	 */
@@ -78,6 +80,18 @@ public class ClientProxy {
 			out.println(i);
 		}
 		out.println(Protocol.END_SENSES);
+	}
+
+	/**
+	 * Moves this ClientProxy from the current Room to the given Room.
+	 *
+	 * @param toEnter the room to which this ClientProxy should move
+	 */
+	public synchronized void changeRoom(Room toEnter) {
+		if (currentRoom.connected.contains(toEnter)) {
+			currentRoom.leaveRoom(this);
+			toEnter.enterRoom(this);
+		}
 	}
 
 	/**
