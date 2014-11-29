@@ -94,6 +94,7 @@ public class ClientProxy {
 			}
 		}
 		toEnter.enterRoom(this);
+		currentRoom = toEnter;
 	}
 
 	/**
