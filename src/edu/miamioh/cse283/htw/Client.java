@@ -52,9 +52,6 @@ public class Client {
 
 	/**
 	 * Plays the game.
-	 *
-	 * @param args holds address and port number for the
-	 *             CaveSystemServer this client will connect to.
 	 */
 	public void run() {
 		try {
