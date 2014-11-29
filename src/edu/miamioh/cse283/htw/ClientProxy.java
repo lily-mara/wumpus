@@ -88,10 +88,12 @@ public class ClientProxy {
 	 * @param toEnter the room to which this ClientProxy should move
 	 */
 	public synchronized void changeRoom(Room toEnter) {
-		if (currentRoom.connected.contains(toEnter)) {
-			currentRoom.leaveRoom(this);
-			toEnter.enterRoom(this);
+		if (currentRoom != null) {
+			if (currentRoom.connected.contains(toEnter)) {
+				currentRoom.leaveRoom(this);
+			}
 		}
+		toEnter.enterRoom(this);
 	}
 
 	/**
