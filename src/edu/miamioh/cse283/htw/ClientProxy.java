@@ -95,6 +95,7 @@ public class ClientProxy {
 		}
 		toEnter.enterRoom(this);
 		currentRoom = toEnter;
+		sendSenses(currentRoom.getSensed());
 	}
 
 	/**
