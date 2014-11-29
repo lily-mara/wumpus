@@ -10,26 +10,31 @@ public class CaveSystemServerProxy {
 	protected Socket s;
 
 	/**
-	 * Used to read from the cave's socket.
-	 */
-	protected BufferedReader in;
-
-	/**
 	 * Used to write to the cave's socket.
 	 */
 	protected PrintWriter out;
 
-	public CaveSystemServerProxy(Socket s) throws Exception {
+	/**
+	 * Constructor.
+	 */
+	public CaveSystemServerProxy(Socket s) throws IOException {
 		this.s = s;
-		this.out = new PrintWriter(s.getOutputStream(), true);
-		this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		try {
+			this.out = new PrintWriter(s.getOutputStream(), true);
+		} catch (IOException ex) {
+			try {
+				s.close();
+			} catch (Exception ex2) {
+			}
+			throw ex;
+		}
 	}
 
 	/**
 	 * Register a cave server.
 	 */
-	public void register(ServerSocket s) {
-		out.println(s.getInetAddress().getHostName());
-		out.println(s.getLocalPort());
+	public void register(ServerSocket s) throws IOException {
+		String msg = Protocol.REGISTER + " " + s.getInetAddress().getHostName() + " " + s.getLocalPort();
+		out.println(msg);
 	}
 }

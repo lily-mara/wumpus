@@ -3,102 +3,95 @@ package edu.miamioh.cse283.htw;
 import java.util.*;
 
 public class Room {
-	public static final int EMPTY = 0;
-	public static final int WUMPUS = 1;
-	public static final int GOLD = 2;
-	public static final int HOLE = 3;
-	public static final int BATS = 4;
-	public static final int OTHER_PLAYERS = 5;
-	public static final int ARROWS = 6;
 
-	public ArrayList<ClientProxy> players;
-	private ArrayList<Room> connections;
-	private int n;
-	private int contents;
+	/**
+	 * Players currently in this room.
+	 */
+	protected ArrayList<ClientProxy> players;
 
-	public Room(int n) {
+	/**
+	 * Rooms that this room is connected to.
+	 */
+	protected HashSet<Room> connected;
+
+	/**
+	 * ID number of this room.
+	 */
+	protected int roomId;
+
+	/**
+	 * Constructor.
+	 */
+	public Room() {
 		players = new ArrayList<ClientProxy>();
-		connections = new ArrayList<Room>();
-		this.n = n;
-		contents = EMPTY;
+		connected = new HashSet<Room>();
 	}
 
-	public void setContents(int newContents) {
-		contents = newContents;
+	/**
+	 * Set this room's id number.
+	 */
+	public void setIdNumber(int n) {
+		roomId = n;
 	}
 
-	public void addBidirectionalConnection(Room other) {
-		connections.add(other);
-		other.connections.add(this);
+	/**
+	 * Get this room's id number.
+	 */
+	public int getIdNumber() {
+		return roomId;
 	}
 
-	public Room[] getConnections() {
-		return (Room[]) connections.toArray();
+	/**
+	 * Connect room r to this room (bidirectional).
+	 */
+	public void connectRoom(Room r) {
+		connected.add(r);
+		r.connected.add(r);
 	}
 
-	public int getNumber() {
-		return n;
+	/**
+	 * Called when a player enters this room.
+	 */
+	public synchronized void enterRoom(ClientProxy c) {
+		players.add(c);
 	}
 
-	public void addPlayer(ClientProxy client) {
-		switch (contents) {
-			case WUMPUS:
-				client.message("You hear a snarl and turn to see the crazed Wumpus just before he eats you alive!");
-				client.kill();
-				return;
-			case HOLE:
-				client.message("You are sent down a bottomless pit, never to be seen again..");
-				client.kill();
-				return;
-		}
-		players.add(client);
+	/**
+	 * Called when a player leaves this room.
+	 */
+	public synchronized void leaveRoom(ClientProxy c) {
+		players.remove(c);
 	}
 
-	public void removePlayer(ClientProxy client) {
-		for (int i = 0; i < players.size(); i++) {
-			if (players.get(i) == client) {
-				players.remove(i);
+	/**
+	 * Returns a connected Room (if room is valid), otherwise returns null.
+	 */
+	public Room getRoom(int room) {
+		for (Room r : connected) {
+			if (r.getIdNumber() == room) {
+				return r;
 			}
 		}
+		return null;
 	}
 
-	public boolean hasSense() {
-		return contents != EMPTY;
-	}
-
-	public String getSense() {
-		switch (contents) {
-			case WUMPUS:
-				return "You smell the smelly smell of a Wumpus";
-			case OTHER_PLAYERS:
-				return "You hear another adventurer knocking an arrow";
-			case BATS:
-				return "You hear the screech of the bats";
-			case HOLE:
-				return "You hear the whistling wind";
-			case GOLD:
-				return "You see the shimmering light of gold!";
-			case ARROWS:
-				return "You hear the clack of arrows against the wall.";
-		}
-		return "You see nothing... nothing!";
-	}
-
-	public String[] getSenses() {
-		ArrayList<String> senses = new ArrayList<String>();
-		for (Room r : connections) {
-			if (r.hasSense()) {
-				senses.add(r.getSense());
+	/**
+	 * Returns a string describing what a player sees in this room.
+	 */
+	public synchronized ArrayList<String> getSensed() {
+		ArrayList<String> msg = new ArrayList<String>();
+		msg.add("You are in an empty room.");
+		String t = "You see tunnels to rooms ";
+		int c = 0;
+		for (Room r : connected) {
+			++c;
+			if (c == connected.size()) {
+				t = t.concat("and " + r.getIdNumber() + ".");
+			} else {
+				t = t.concat("" + r.getIdNumber() + ", ");
 			}
 		}
-		return senses.toArray(new String[senses.size()]);
-	}
-
-	public String tunnelMessage() {
-		String tunnels = "Tunnels lead to";
-		for (Room r : connections) {
-			tunnels += " " + r.getNumber();
-		}
-		return tunnels;
+		msg.add(t);
+		return msg;
 	}
 }

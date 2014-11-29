@@ -1,12 +1,16 @@
 package edu.miamioh.cse283.htw;
 
 import java.io.*;
+import java.net.InetAddress;
 import java.net.Socket;
+import java.util.ArrayList;
+
 
 /**
  * Proxy client object.
  */
 public class ClientProxy {
+
 	/**
 	 * This socket is connected to a client.
 	 */
@@ -23,69 +27,77 @@ public class ClientProxy {
 	protected PrintWriter out;
 
 	/**
-	 * The current room that this player is in
-	 */
-	protected Room currentRoom;
-
-	protected boolean alive;
-
-	/**
 	 * Constructor.
 	 */
-	public ClientProxy(Socket s) throws Exception {
+	public ClientProxy(Socket s) throws IOException {
 		this.s = s;
-		this.out = new PrintWriter(s.getOutputStream(), true);
-		this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
-		this.currentRoom = null;
-		this.alive = true;
-	}
-
-	public Room getCurrentRoom() {
-		return currentRoom;
-	}
-
-	public void setCurrentRoom(Room newRoom) {
-		if (currentRoom != null) {
-			currentRoom.removePlayer(this);
+		try {
+			this.out = new PrintWriter(s.getOutputStream(), true);
+			this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+		} catch (IOException ex) {
+			try {
+				s.close();
+			} catch (IOException ex2) {
+			}
+			throw ex;
 		}
-		newRoom.addPlayer(this);
-		currentRoom = newRoom;
-	}
-
-	public void kill() {
-		alive = false;
-	}
-
-	public boolean isAlive() {
-		return alive;
 	}
 
 	/**
-	 * Handoff this client to the given cave.
+	 * Close the connection to the client.
 	 */
-	public void handoff(CaveProxy cave) {
-		out.println(cave.getRemoteClientAddress().getHostName());
-		out.println(cave.getRemoteClientPort());
+	public void close() throws IOException {
+		s.close();
 	}
 
 	/**
-	 * Send a message to the client.
+	 * Send a handoff message to this client.
 	 */
-	public void message(String msg) {
+	public void handoff(InetAddress addr, int port) throws IOException {
+		String msg = Protocol.HANDOFF + " " + addr.getHostName() + " " + port;
 		out.println(msg);
 	}
 
 	/**
-	 * Send a sensory message to the client.
+	 * Send a block message of notifications to the client.
 	 */
-	public void senses(String msg) {
-		out.println(msg);
+	public void sendNotifications(ArrayList<String> blockMsg) {
+		out.println(Protocol.BEGIN_NOTIFICATION);
+		for (String i : blockMsg) {
+			out.println(i);
+		}
+		out.println(Protocol.END_NOTIFICATION);
+	}
+
+	/**
+	 * Send a block message of sensory information to the client.
+	 */
+	public void sendSenses(ArrayList<String> blockMsg) {
+		out.println(Protocol.BEGIN_SENSES);
+		for (String i : blockMsg) {
+			out.println(i);
+		}
+		out.println(Protocol.END_SENSES);
+	}
+
+	/**
+	 * Send a DIED message.
+	 */
+	public void died() {
+		out.println(Protocol.DIED);
+	}
+
+	/**
+	 * Returns true if this client has data that can be read.
+	 */
+	public boolean ready() throws IOException {
+		return in.ready();
 	}
 
 	/**
 	 * Get an action from the client.
 	 */
-	public String getAction() throws Exception {
+	public String nextLine() throws IOException {
 		return in.readLine();
 	}
 }

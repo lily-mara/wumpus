@@ -1,5 +1,6 @@
 package edu.miamioh.cse283.htw;
 
+import java.io.IOException;
 import java.net.*;
 import java.util.*;
 
@@ -26,7 +27,7 @@ public class CaveSystemServer {
 	protected Random rng;
 
 	/**
-	 * List of connections to cave servers.
+	 * List of proxies to CaveServers.
 	 */
 	protected ArrayList<CaveProxy> caves;
 
@@ -61,25 +62,77 @@ public class CaveSystemServer {
 	}
 
 	/**
-	 * Redirects a client to a random cave server.
+	 * Removes a cave from this cave system.
 	 */
-	public synchronized void handoff(ClientProxy client) {
-		client.handoff(caves.get(rng.nextInt(caves.size())));
+	public synchronized void removeCave(CaveProxy c) {
+		caves.remove(c);
+	}
+
+	/**
+	 * This thread manages a single CaveServer.
+	 */
+	public class CaveServerThread implements Runnable {
+		protected CaveProxy cave;
+
+		/**
+		 * Constructor.
+		 */
+		public CaveServerThread(CaveProxy cave) {
+			this.cave = cave;
+		}
+
+		/**
+		 * Handle a single CaveServer.
+		 */
+		public void run() {
+			try {
+				// we're expecting to receive a "REGISTER" message:
+				String line = cave.nextLine();
+
+				if (line.startsWith(Protocol.REGISTER)) {
+					String[] words = line.split(" ");
+					cave.setClientAddress(InetAddress.getByName(words[1]));
+					cave.setClientPort(Integer.parseInt(words[2]));
+					System.out.println(line);
+
+					// if we reach here, address and port are good.  add this
+					// cave server to the list:
+					addCave(cave);
+
+					// now put this thread to sleep until the connection is broken
+					// (this throws an exception when the socket closes; there's a
+					// bit of delay here, but acceptable for this project):
+					while (true) {
+						line = cave.nextLine();
+					}
+				}
+
+				// if the line didn't start with REGISTER, we can't really do
+				// anything about it.  Fall through to the finally, and exit
+				// the thread.
+			} catch (Exception ex) {
+			} finally {
+				removeCave(cave);
+			}
+		}
 	}
 
 	/**
 	 * This is the thread that accepts connections from CaveServers.
+	 * <p/>
+	 * All it does is spawn new Threads for new connections from
+	 * CaveServers.
 	 */
-	public class CaveServerThread implements Runnable {
+	public class CaveServerListenerThread implements Runnable {
 		public void run() {
 			try {
 				while (true) {
 					CaveProxy cave = new CaveProxy(caveSocket.accept());
-					cave.readRemoteClientAddress();
-					addCave(cave);
+					(new Thread(new CaveServerThread(cave))).start();
 				}
 			} catch (Exception ex) {
-				// If an exception is thrown, we can't fix it here -- Crash.
+				// If an exception is thrown, we can't fix it here -- Crash,
+				// because this is a pretty important feature.
 				ex.printStackTrace();
 				System.exit(1);
 			}
@@ -87,12 +140,19 @@ public class CaveSystemServer {
 	}
 
 	/**
+	 * Redirects a client to a random cave server.
+	 */
+	public synchronized void handoff(ClientProxy client) throws IOException {
+		CaveProxy c = caves.get(rng.nextInt(caves.size()));
+		client.handoff(c.getClientAddress(), c.getClientPort());
+	}
+
+	/**
 	 * This is the thread that handles a single client connection.
 	 */
 	public class ClientThread implements Runnable {
 		/**
-		 * This is our "client" (actually, a proxy to the network-connected
-		 * client).
+		 * This is our "client" (actually, a proxy to the network-connected client).
 		 */
 		protected ClientProxy client;
 
@@ -104,16 +164,10 @@ public class CaveSystemServer {
 		}
 
 		/**
-		 * Play the game.
-		 * <p/>
-		 * The cave system server has limited game-playing functionality. It
-		 * must handle: 1) logging players into the system 2) letting players
-		 * exit the game via the ladder 3) handing-off players to another cave
+		 * Handoff the player to a random CaveServer.
 		 */
 		public void run() {
 			try {
-				// At the moment, all we're going to do is redirect the client
-				// to a random cave:
 				handoff(client);
 			} catch (Exception ex) {
 				// If an exception is thrown, we can't fix it here -- Crash.
@@ -125,6 +179,8 @@ public class CaveSystemServer {
 
 	/**
 	 * Runs the CaveSystemServer.
+	 *
+	 * @param args holds the port numbers to listen on.
 	 */
 	public void run() {
 		try {
@@ -133,7 +189,7 @@ public class CaveSystemServer {
 			caveSocket = new ServerSocket(getCaveServerPort());
 
 			// Start the thread listening for caves:
-			(new Thread(new CaveServerThread())).start();
+			(new Thread(new CaveServerListenerThread())).start();
 
 			// and now loop forever, accepting client connections:
 			while (true) {
@@ -141,9 +197,8 @@ public class CaveSystemServer {
 				(new Thread(new ClientThread(client))).start();
 			}
 		} catch (Exception ex) {
-			// If an exception is caught, it's likely because of a network
-			// problem
-			// somewhere. We can't fix it here -- Crash.
+			// If an exception is caught, it's likely because of a network problem
+			// somewhere.  We can't fix it here -- Crash.
 			ex.printStackTrace();
 			System.exit(1);
 		}
