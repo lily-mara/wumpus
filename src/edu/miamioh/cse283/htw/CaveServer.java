@@ -3,6 +3,7 @@ package edu.miamioh.cse283.htw;
 import java.io.IOException;
 import java.net.*;
 import java.util.*;
+import java.util.regex.*;
 
 /**
  * The CaveServer class takes the following command-line parameters:
@@ -191,7 +192,22 @@ public class CaveServer {
 						if (client.ready()) {
 							String line = client.nextLine().trim();
 
-							if (line.startsWith(Protocol.MOVE_ACTION)) {
+							Matcher action = Protocol.ACTION_PATTERN.matcher(line);
+
+							if (action.matches()) {
+								int actionNumber = Integer.parseInt(action.group(1));
+
+								switch (actionNumber) {
+									case Protocol.MOVE:
+										int roomNumber = Integer.parseInt(action.group(2));
+										break;
+									case Protocol.CLIMB:
+										break;
+									case Protocol.SHOOT:
+										break;
+									case Protocol.PICKUP:
+										break;
+								}
 								// move the player: split out the room number, move the player, etc.
 								// client has to leave the room: r.leaveRoom(client)
 								// and enter the new room: newRoom.enterRoom(client)
@@ -282,5 +298,21 @@ public class CaveServer {
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}
+	}
+
+	/**
+	 * Returns the Room with the given ID number, or NULL if one doesn't exist
+	 *
+	 * @param index the ID number to search for
+	 * @return Room with the given ID number, or NULL if one doesn't exist
+	 */
+	private Room getRoomByNumber(int index) {
+		for (int i = 0; i < rooms.size(); i++) {
+			Room r = rooms.get(i);
+			if (r.getIdNumber() == index) {
+				return r;
+			}
+		}
+		return null;
 	}
 }
