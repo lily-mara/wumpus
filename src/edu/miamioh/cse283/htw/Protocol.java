@@ -166,10 +166,15 @@ public class Protocol {
 	 * <optional room id> is used by 1:move and 2:shoot to indicate into which
 	 * room a player (arrow) is to be moved (shot).
 	 */
-	public static final String MOVE_ACTION = "ACTION 1";
-	public static final String SHOOT_ACTION = "ACTION 2";
-	public static final String PICKUP_ACTION = "ACTION 3";
-	public static final String CLIMB_ACTION = "ACTION 4";
+	public static final String ACTION = "ACTION";
+	public static final int MOVE = 1;
+	public static final int SHOOT = 2;
+	public static final int PICKUP = 3;
+	public static final int CLIMB = 4;
+	public static final String MOVE_ACTION = ACTION + MOVE;
+	public static final String SHOOT_ACTION = ACTION + SHOOT;
+	public static final String PICKUP_ACTION = ACTION + PICKUP;
+	public static final String CLIMB_ACTION = ACTION + CLIMB;
 
 	public static final Pattern ACTION_PATTERN = Pattern.compile("^ACTION\\s+([1-4])\\s+(\\d+)$");
 	public static final Pattern HANDOFF_PATTERN = Pattern.compile("^HANDOFF\\s+(\\w+)\\s+(\\w+)$");
