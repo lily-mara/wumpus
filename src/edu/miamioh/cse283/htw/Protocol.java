@@ -1,5 +1,7 @@
 package edu.miamioh.cse283.htw;
 
+import java.util.regex.*;
+
 public class Protocol {
 
 	/**
@@ -168,4 +170,9 @@ public class Protocol {
 	public static final String SHOOT_ACTION = "ACTION 2";
 	public static final String PICKUP_ACTION = "ACTION 3";
 	public static final String CLIMB_ACTION = "ACTION 4";
+
+	public static final Pattern ACTION_PATTERN = Pattern.compile("^ACTION\\s+([1-4])\\s+(\\d+)$");
+	public static final Pattern HANDOFF_PATTERN = Pattern.compile("^HANDOFF\\s+(\\w+)\\s+(\\w+)$");
+	public static final Pattern CONNECT_PATTERN = Pattern.compile("^CONNECT\\s+(.+)$");
+	public static final Pattern REGISTER_PATTERN = Pattern.compile("^REGISTER\\s+(\\w+)\\s+(\\d+)\\s+(.+)$");
 }
