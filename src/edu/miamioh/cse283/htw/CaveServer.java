@@ -162,8 +162,7 @@ public class CaveServer {
 				// Put the player in an initial room and send them their initial
 				// sensory information:
 				Room r = getInitialRoom();
-				r.enterRoom(client);
-				client.sendSenses(r.getSensed());
+				client.changeRoom(r);
 
 				// while the player is alive, listen for commands from the player
 				// and for activities elsewhere in the cave:
@@ -196,14 +195,24 @@ public class CaveServer {
 
 							if (action.matches()) {
 								int actionNumber = Integer.parseInt(action.group(1));
+								int roomNumber;
+								Room room;
 
 								switch (actionNumber) {
 									case Protocol.MOVE:
-										int roomNumber = Integer.parseInt(action.group(2));
+										roomNumber = Integer.parseInt(action.group(2));
+										room = getRoomByNumber(roomNumber);
+										if (room != null) {
+											client.changeRoom(room);
+										} else {
+											notifications.add("Invalid room number.");
+										}
 										break;
 									case Protocol.CLIMB:
 										break;
 									case Protocol.SHOOT:
+										roomNumber = Integer.parseInt(action.group(2));
+										room = getRoomByNumber(roomNumber);
 										break;
 									case Protocol.PICKUP:
 										break;
