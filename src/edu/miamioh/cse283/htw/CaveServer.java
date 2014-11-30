@@ -201,7 +201,7 @@ public class CaveServer {
 								switch (actionNumber) {
 									case Protocol.MOVE:
 										roomNumber = Integer.parseInt(action.group(2));
-										room = getRoomByNumber(roomNumber);
+										room = client.getCurrentRoom().getRoom(roomNumber);
 										if (room != null) {
 											client.changeRoom(room);
 										} else {
