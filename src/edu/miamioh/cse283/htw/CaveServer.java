@@ -99,17 +99,11 @@ public class CaveServer {
 		protected ArrayList<String> notifications;
 
 		/**
-		 * Whether this player is alive.
-		 */
-		protected boolean alive;
-
-		/**
 		 * Constructor.
 		 */
 		public ClientThread(ClientProxy client) {
 			this.client = client;
 			this.notifications = new ArrayList<String>();
-			this.alive = true;
 		}
 
 		/**
@@ -136,20 +130,6 @@ public class CaveServer {
 		}
 
 		/**
-		 * Returns true if the player is alive.
-		 */
-		public synchronized boolean isAlive() {
-			return alive;
-		}
-
-		/**
-		 * Kills this player.
-		 */
-		public synchronized void kill() {
-			alive = false;
-		}
-
-		/**
 		 * Play the game with this client.
 		 */
 		public void run() {
@@ -169,7 +149,7 @@ public class CaveServer {
 				try {
 					while (true) {
 						// poll, waiting for input from client or other notifications:
-						while (!client.ready() && !hasNotifications() && isAlive()) {
+						while (!client.ready() && !hasNotifications() && client.isAlive()) {
 							try {
 								Thread.sleep(50);
 							} catch (InterruptedException ex) {
@@ -182,8 +162,7 @@ public class CaveServer {
 						}
 
 						// if the player is dead, send the DIED message and break:
-						if (!isAlive()) {
-							client.died();
+						if (!client.isAlive()) {
 							break;
 						}
 

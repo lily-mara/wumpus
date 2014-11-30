@@ -27,6 +27,7 @@ public class ClientProxy {
 	protected PrintWriter out;
 
 	protected Room currentRoom;
+	protected boolean alive;
 
 	/**
 	 * Constructor.
@@ -36,6 +37,7 @@ public class ClientProxy {
 		try {
 			this.out = new PrintWriter(s.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
+			this.alive = true;
 		} catch (IOException ex) {
 			try {
 				s.close();
@@ -103,10 +105,18 @@ public class ClientProxy {
 	}
 
 	/**
+	 * Returns true if the player is alive.
+	 */
+	public synchronized boolean isAlive() {
+		return alive;
+	}
+
+	/**
 	 * Send a DIED message.
 	 */
-	public void died() {
+	public synchronized void kill() {
 		out.println(Protocol.DIED);
+		alive = false;
 	}
 
 	/**
