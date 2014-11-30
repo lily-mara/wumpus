@@ -86,6 +86,10 @@ public class Room {
 				c.sendNotifications(notifications);
 				c.kill();
 				break;
+			case BATS:
+				notifications.add("You hear the screeching of the bats, and they carry you off");
+				c.sendNotifications(notifications);
+				break;
 		}
 	}
 
