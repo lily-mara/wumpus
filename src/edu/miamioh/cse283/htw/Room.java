@@ -26,18 +26,20 @@ public class Room {
 	protected int roomId;
 
 	protected int contents;
+	protected CaveServer rooms;
 
 	/**
 	 * Constructor.
 	 */
-	public Room(int contents) {
+	public Room(int contents, CaveServer rooms) {
 		players = new ArrayList<ClientProxy>();
 		connected = new HashSet<Room>();
 		this.contents = contents;
+		this.rooms = rooms;
 	}
 
-	public Room() {
-		this(EMPTY);
+	public Room(CaveServer rooms) {
+		this(EMPTY, rooms);
 	}
 
 	/**
@@ -89,20 +91,9 @@ public class Room {
 			case BATS:
 				notifications.add("You hear the screeching of the bats, and they carry you off");
 				c.sendNotifications(notifications);
-				c.changeRoom(randomRoom());
+				c.changeRoom(rooms.randomRoom());
 				break;
 		}
-	}
-
-	private Room randomRoom() {
-		Room r = this;
-
-		for (int i = 0; i < 100; ++i) {
-			Room[] connections = r.connected.toArray(new Room[r.connected.size()]);
-			r = connections[Utils.random(connections.length)];
-		}
-
-		return r;
 	}
 
 	/**

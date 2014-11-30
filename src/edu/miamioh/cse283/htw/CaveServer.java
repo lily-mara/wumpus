@@ -63,7 +63,7 @@ public class CaveServer {
 				contents = Room.BATS;
 			}
 
-			rooms.add(new Room(contents));
+			rooms.add(new Room(contents, this));
 		}
 
 		// connect them to each other:
@@ -81,6 +81,11 @@ public class CaveServer {
 			}
 			rooms.get(i).setIdNumber(r);
 		}
+	}
+
+	public Room randomRoom() {
+		int index = rng.nextInt(rooms.size());
+		return rooms.get(index);
 	}
 
 	/**
@@ -131,11 +136,6 @@ public class CaveServer {
 		 */
 		public synchronized void addNotification(String msg) {
 			notifications.add(msg);
-		}
-
-		public Room randomRoom() {
-			int index = rng.nextInt(rooms.size());
-			return rooms.get(index);
 		}
 
 		/**
