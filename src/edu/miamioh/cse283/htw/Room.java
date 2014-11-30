@@ -80,7 +80,8 @@ public class Room {
 	 */
 	public synchronized ArrayList<String> getSensed() {
 		ArrayList<String> msg = new ArrayList<String>();
-		msg.add("You are in an empty room.");
+		msg.add(String.format("You are in room %d.", roomId));
+		msg.add("Room is empty.");
 		String t = "You see tunnels to rooms ";
 		int c = 0;
 		for (Room r : connected) {
