@@ -89,8 +89,20 @@ public class Room {
 			case BATS:
 				notifications.add("You hear the screeching of the bats, and they carry you off");
 				c.sendNotifications(notifications);
+				c.changeRoom(randomRoom());
 				break;
 		}
+	}
+
+	private Room randomRoom() {
+		Room r = this;
+
+		for (int i = 0; i < 100; ++i) {
+			Room[] connections = r.connected.toArray(new Room[r.connected.size()]);
+			r = connections[Utils.random(connections.length)];
+		}
+
+		return r;
 	}
 
 	/**
