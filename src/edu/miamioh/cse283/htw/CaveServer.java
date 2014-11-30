@@ -133,6 +133,11 @@ public class CaveServer {
 			notifications.add(msg);
 		}
 
+		public Room randomRoom() {
+			int index = rng.nextInt(rooms.size());
+			return rooms.get(index);
+		}
+
 		/**
 		 * Returns and resets notification messages.
 		 */
