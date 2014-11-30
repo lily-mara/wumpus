@@ -50,6 +50,8 @@ public class CaveServer {
 		// locations for hazards
 		int[] hazards = Utils.nRand(3, 20);
 
+		int bats = -1, hole = -1, wumpus = -1;
+
 		// construct the rooms:
 		rooms = new ArrayList<Room>();
 		for (int i = 0; i < 20; ++i) {
@@ -64,6 +66,18 @@ public class CaveServer {
 			}
 
 			rooms.add(new Room(contents, this));
+
+			switch (contents) {
+				case Room.BATS:
+					bats = i;
+					break;
+				case Room.WUMPUS:
+					wumpus = i;
+					break;
+				case Room.HOLE:
+					hole = i;
+					break;
+			}
 		}
 
 		// connect them to each other:
@@ -81,6 +95,10 @@ public class CaveServer {
 			}
 			rooms.get(i).setIdNumber(r);
 		}
+
+		System.out.printf("Bats: %d\n", rooms.get(bats).getIdNumber());
+		System.out.printf("Wumpus: %d\n", rooms.get(wumpus).getIdNumber());
+		System.out.printf("Hole: %d\n", rooms.get(hole).getIdNumber());
 	}
 
 	public Room randomRoom() {
