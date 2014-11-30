@@ -82,6 +82,10 @@ public class ClientProxy {
 		out.println(Protocol.END_SENSES);
 	}
 
+	public Room getCurrentRoom() {
+		return currentRoom;
+	}
+
 	/**
 	 * Moves this ClientProxy from the current Room to the given Room.
 	 *
