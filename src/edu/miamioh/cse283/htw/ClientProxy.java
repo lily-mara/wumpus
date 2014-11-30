@@ -89,17 +89,29 @@ public class ClientProxy {
 	}
 
 	/**
-	 * Moves this ClientProxy from the current Room to the given Room.
+	 * Moves this ClientProxy from the current Room to the given Room and send senses to client
 	 *
 	 * @param toEnter the room to which this ClientProxy should move
 	 */
 	public synchronized void changeRoom(Room toEnter) {
+		changeRoom(toEnter, true);
+	}
+
+	/**
+	 * Moves this ClientProxy from the current Room to the given Room.
+	 *
+	 * @param toEnter  the room to which this ClientProxy should move
+	 * @param sendInfo if this is true, send senses to the client, otherwise do not send senses to client
+	 */
+	public synchronized void changeRoom(Room toEnter, boolean sendInfo) {
 		if (currentRoom != null) {
 			currentRoom.leaveRoom(this);
 		}
-		toEnter.enterRoom(this);
 		currentRoom = toEnter;
-		sendSenses(currentRoom.getSensed());
+		toEnter.enterRoom(this);
+		if (sendInfo) {
+			sendSenses(currentRoom.getSensed());
+		}
 	}
 
 	/**
