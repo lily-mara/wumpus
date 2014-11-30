@@ -109,6 +109,7 @@ public class Client {
 
 					} else if (move.matches()) {
 						cave.move(move.group(1));
+						lastSenses.clear();
 
 					} else if (shoot.matches()) {
 						cave.shoot(shoot.group(1));
