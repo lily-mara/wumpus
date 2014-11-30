@@ -91,7 +91,7 @@ public class Room {
 			case BATS:
 				notifications.add("You hear the screeching of the bats, and they carry you off");
 				c.sendNotifications(notifications);
-				c.changeRoom(rooms.randomRoom());
+				c.changeRoom(rooms.randomRoom(), false);
 				break;
 		}
 	}
