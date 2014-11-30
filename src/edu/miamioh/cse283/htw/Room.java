@@ -4,6 +4,12 @@ import java.util.*;
 
 public class Room {
 
+	public static final int EMPTY = 0;
+	public static final int BATS = 1;
+	public static final int HOLE = 2;
+	public static final int WUMPUS = 3;
+	public static final int OTHER_PLAYERS = 4;
+
 	/**
 	 * Players currently in this room.
 	 */
@@ -19,12 +25,19 @@ public class Room {
 	 */
 	protected int roomId;
 
+	protected int contents;
+
 	/**
 	 * Constructor.
 	 */
-	public Room() {
+	public Room(int contents) {
 		players = new ArrayList<ClientProxy>();
 		connected = new HashSet<Room>();
+		this.contents = contents;
+	}
+
+	public Room() {
+		this(EMPTY);
 	}
 
 	/**
@@ -53,7 +66,21 @@ public class Room {
 	 * Called when a player enters this room.
 	 */
 	public synchronized void enterRoom(ClientProxy c) {
-		players.add(c);
+		ArrayList<String> notifications = new ArrayList<String>();
+		switch (contents) {
+			case EMPTY:
+				players.add(c);
+				break;
+			case OTHER_PLAYERS:
+				players.add(c);
+				break;
+			case WUMPUS:
+				notifications.add("You hear a snarl and turn to see the horrible Wumpus!");
+				notifications.add("The wumpus eats you, and you are dead!");
+				c.sendNotifications(notifications);
+				c.kill();
+				break;
+		}
 	}
 
 	/**

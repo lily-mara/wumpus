@@ -47,10 +47,23 @@ public class CaveServer {
 		this.portBase = portBase;
 		this.rng = new Random();
 
+		// locations for hazards
+		int[] hazards = Utils.nRand(3, 20);
+
 		// construct the rooms:
 		rooms = new ArrayList<Room>();
 		for (int i = 0; i < 20; ++i) {
-			rooms.add(new Room());
+			int contents = Room.EMPTY;
+
+			if (i == hazards[0]) {
+				contents = Room.WUMPUS;
+			} else if (i == hazards[1]) {
+				contents = Room.HOLE;
+			} else if (i == hazards[2]) {
+				contents = Room.BATS;
+			}
+
+			rooms.add(new Room(contents));
 		}
 
 		// connect them to each other:
