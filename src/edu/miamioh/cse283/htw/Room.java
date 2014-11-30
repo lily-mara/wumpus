@@ -61,7 +61,7 @@ public class Room {
 	 */
 	public void connectRoom(Room r) {
 		connected.add(r);
-		r.connected.add(r);
+		r.connected.add(this);
 	}
 
 	/**
