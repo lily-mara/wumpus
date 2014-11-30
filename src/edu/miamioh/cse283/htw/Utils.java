@@ -31,8 +31,10 @@ public class Utils {
 
 		for (int i = 0; i < n; i++) {
 			int choice;
-			while (used.contains(choice = random(low, high))) {
-			}
+			do {
+				choice = random(low, high);
+			} while (used.contains(choice));
+			used.add(choice);
 			rand[i] = choice;
 		}
 
