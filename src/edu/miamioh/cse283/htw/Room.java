@@ -108,7 +108,24 @@ public class Room {
 	public synchronized ArrayList<String> getSensed() {
 		ArrayList<String> msg = new ArrayList<String>();
 		msg.add(String.format("You are in room %d.", roomId));
-		msg.add("Room is empty.");
+
+		for (Room r : connected) {
+			switch (r.contents) {
+				case WUMPUS:
+					msg.add("You smell the smelly smell of a Wumpus!");
+					break;
+				case BATS:
+					msg.add("You hear the screech of the bats");
+					break;
+				case OTHER_PLAYERS:
+					msg.add("You hear the stomping of adventurer's feet");
+					break;
+				case HOLE:
+					msg.add("You feel the rush of the wind");
+					break;
+			}
+		}
+
 		String t = "You see tunnels to rooms ";
 		int c = 0;
 		for (Room r : connected) {
