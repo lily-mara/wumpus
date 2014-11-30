@@ -95,9 +95,7 @@ public class ClientProxy {
 	 */
 	public synchronized void changeRoom(Room toEnter) {
 		if (currentRoom != null) {
-			if (currentRoom.connected.contains(toEnter)) {
-				currentRoom.leaveRoom(this);
-			}
+			currentRoom.leaveRoom(this);
 		}
 		toEnter.enterRoom(this);
 		currentRoom = toEnter;
