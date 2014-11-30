@@ -80,6 +80,12 @@ public class Room {
 				c.sendNotifications(notifications);
 				c.kill();
 				break;
+			case HOLE:
+				notifications.add("You hear the wind rush around you as you enter the room");
+				notifications.add("You fall down a bottomless pit and are never heard from again!");
+				c.sendNotifications(notifications);
+				c.kill();
+				break;
 		}
 	}
 
