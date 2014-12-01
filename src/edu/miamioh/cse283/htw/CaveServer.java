@@ -206,58 +206,10 @@ public class CaveServer {
 						if (client.ready()) {
 							String line = client.nextLine().trim();
 
-							Matcher action = Protocol.ACTION_PATTERN.matcher(line);
-
-							if (action.matches()) {
-								int actionNumber = Integer.parseInt(action.group(1));
-								int roomNumber;
-								Room room;
-
-								switch (actionNumber) {
-									case Protocol.MOVE:
-										roomNumber = Integer.parseInt(action.group(2));
-										room = client.getCurrentRoom().getRoom(roomNumber);
-										if (room != null) {
-											client.changeRoom(room);
-										} else {
-											notifications.add("Invalid room number.");
-										}
-										break;
-									case Protocol.CLIMB:
-										break;
-									case Protocol.SHOOT:
-										roomNumber = Integer.parseInt(action.group(2));
-										room = getRoomByNumber(roomNumber);
-										break;
-									case Protocol.PICKUP:
-										break;
-								}
-								// move the player: split out the room number, move the player, etc.
-								// client has to leave the room: r.leaveRoom(client)
-								// and enter the new room: newRoom.enterRoom(client)
-								// send the client new senses here: client.sendSenses(r.getSensed());
-
-							} else if (line.startsWith(Protocol.SHOOT_ACTION)) {
-								// shoot an arrow: split out the room number into which the arrow
-								// is to be shot, and then send an arrow into the right series of
-								// rooms.
-
-							} else if (line.startsWith(Protocol.PICKUP_ACTION)) {
-								// pickup gold / arrows.
-
-							} else if (line.startsWith(Protocol.CLIMB_ACTION)) {
-								// climb the ladder, if the player is in a room with a ladder.
-								// send a notification telling the player his score
-								// and some kind of congratulations, and then kill
-								// the player to end the game -- call kill(), above.
-
-							} else if (line.startsWith(Protocol.QUIT)) {
-								// no response: drop gold and arrows, and break.
+							try {
+								dispatch(line);
+							} catch (ClientQuitException e) {
 								break;
-
-							} else {
-								// invalid response; send the client some kind of error message
-								// (as a notificiation).
 							}
 						}
 					}
@@ -271,6 +223,62 @@ public class CaveServer {
 				// If an exception is thrown, we can't fix it here -- Crash.
 				ex.printStackTrace();
 				System.exit(1);
+			}
+		}
+
+		private void dispatch(String line) throws ClientQuitException {
+			Matcher action = Protocol.ACTION_PATTERN.matcher(line);
+
+			if (action.matches()) {
+				int actionNumber = Integer.parseInt(action.group(1));
+				int roomNumber;
+				Room room;
+
+				switch (actionNumber) {
+					case Protocol.MOVE:
+						roomNumber = Integer.parseInt(action.group(2));
+						room = client.getCurrentRoom().getRoom(roomNumber);
+						if (room != null) {
+							client.changeRoom(room);
+						} else {
+							notifications.add("Invalid room number.");
+						}
+						break;
+					case Protocol.CLIMB:
+						break;
+					case Protocol.SHOOT:
+						roomNumber = Integer.parseInt(action.group(2));
+						room = getRoomByNumber(roomNumber);
+						break;
+					case Protocol.PICKUP:
+						break;
+				}
+				// move the player: split out the room number, move the player, etc.
+				// client has to leave the room: r.leaveRoom(client)
+				// and enter the new room: newRoom.enterRoom(client)
+				// send the client new senses here: client.sendSenses(r.getSensed());
+
+			} else if (line.startsWith(Protocol.SHOOT_ACTION)) {
+				// shoot an arrow: split out the room number into which the arrow
+				// is to be shot, and then send an arrow into the right series of
+				// rooms.
+
+			} else if (line.startsWith(Protocol.PICKUP_ACTION)) {
+				// pickup gold / arrows.
+
+			} else if (line.startsWith(Protocol.CLIMB_ACTION)) {
+				// climb the ladder, if the player is in a room with a ladder.
+				// send a notification telling the player his score
+				// and some kind of congratulations, and then kill
+				// the player to end the game -- call kill(), above.
+
+			} else if (line.startsWith(Protocol.QUIT)) {
+				// no response: drop gold and arrows, and break.
+				throw new ClientQuitException();
+
+			} else {
+				// invalid response; send the client some kind of error message
+				// (as a notificiation).
 			}
 		}
 	}
