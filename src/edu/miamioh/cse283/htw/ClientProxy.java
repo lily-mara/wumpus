@@ -28,6 +28,7 @@ public class ClientProxy {
 
 	protected Room currentRoom;
 	protected boolean alive;
+	protected int arrows;
 
 	/**
 	 * Constructor.
@@ -38,6 +39,7 @@ public class ClientProxy {
 			this.out = new PrintWriter(s.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			this.alive = true;
+			this.arrows = 0;
 		} catch (IOException ex) {
 			try {
 				s.close();
@@ -53,6 +55,16 @@ public class ClientProxy {
 	public void close() throws IOException {
 		currentRoom.leaveRoom(this);
 		s.close();
+	}
+
+	/**
+	 * Shoots an arrow into the given room
+	 *
+	 * @param room the Room in which to shoot
+	 */
+	public void shoot(Room room) {
+		--arrows;
+		room.shoot(this);
 	}
 
 	/**

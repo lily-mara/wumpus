@@ -97,6 +97,27 @@ public class Room {
 	}
 
 	/**
+	 * Shoots an arrow into this room and notifies the client of the outcome.
+	 *
+	 * @param c the client to notify of the outcome of shooting
+	 */
+	public void shoot(ClientProxy c) {
+		ArrayList<String> notifications = new ArrayList<String>();
+		switch (contents) {
+			case OTHER_PLAYERS:
+				notifications.add("You managed to hit another adventurer, I'm sure they're very happy for you.");
+				break;
+			case WUMPUS:
+				notifications.add("You killed the Wumpus!!!");
+				break;
+			default:
+				notifications.add("Your arrow does not hit anything in room " + roomId);
+				break;
+		}
+		c.sendNotifications(notifications);
+	}
+
+	/**
 	 * Called when a player leaves this room.
 	 */
 	public synchronized void leaveRoom(ClientProxy c) {
