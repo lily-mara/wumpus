@@ -39,7 +39,7 @@ public class ClientProxy {
 			this.out = new PrintWriter(s.getOutputStream(), true);
 			this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			this.alive = true;
-			this.arrows = 0;
+			this.arrows = Protocol.INITIAL_ARROWS;
 		} catch (IOException ex) {
 			try {
 				s.close();

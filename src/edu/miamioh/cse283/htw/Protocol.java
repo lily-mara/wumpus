@@ -182,4 +182,5 @@ public class Protocol {
 	public static final Pattern REGISTER_PATTERN = Pattern.compile("^REGISTER\\s+(\\w+)\\s+(\\d+)\\s+(.+)$");
 
 	public static final int MAX_HOPS = 3;
+	public static final int INITIAL_ARROWS = 5;
 }
