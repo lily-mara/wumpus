@@ -216,7 +216,6 @@ public class CaveServer {
 				} finally {
 					// make sure the client leaves whichever room they're in,
 					// and close the client's socket: 
-					r.leaveRoom(client);
 					client.close();
 				}
 			} catch (Exception ex) {

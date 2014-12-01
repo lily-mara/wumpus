@@ -51,6 +51,7 @@ public class ClientProxy {
 	 * Close the connection to the client.
 	 */
 	public void close() throws IOException {
+		currentRoom.leaveRoom(this);
 		s.close();
 	}
 
