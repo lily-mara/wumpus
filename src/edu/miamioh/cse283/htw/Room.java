@@ -115,6 +115,17 @@ public class Room {
 	 */
 	public void shoot(ClientProxy c) {
 		ArrayList<String> notifications = new ArrayList<String>();
+		shoot(0, notifications);
+		c.sendNotifications(notifications);
+	}
+
+	/**
+	 * Shoots an arrow into this room
+	 *
+	 * @param hopCount      the number of rooms that the arrow has already visited
+	 * @param notifications the arraylist of notifications that should be sent to the player
+	 */
+	private void shoot(int hopCount, ArrayList<String> notifications) {
 		switch (contents) {
 			case OTHER_PLAYERS:
 				notifications.add("You managed to hit another adventurer, I'm sure they're very happy for you.");
@@ -124,10 +135,9 @@ public class Room {
 				break;
 			default:
 				notifications.add("Your arrow does not hit anything in room " + roomId);
-				randomConnectedRoom().shoot(c);
+				randomConnectedRoom().shoot(hopCount + 1, notifications);
 				break;
 		}
-		c.sendNotifications(notifications);
 	}
 
 	/**
