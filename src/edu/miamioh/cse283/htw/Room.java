@@ -126,7 +126,7 @@ public class Room {
 	 * @param notifications the arraylist of notifications that should be sent to the player
 	 */
 	private void shoot(int hopCount, ArrayList<String> notifications) {
-		if (hopCount > Protocol.MAX_HOPS) {
+		if (hopCount < Protocol.MAX_HOPS) {
 			switch (contents) {
 				case OTHER_PLAYERS:
 					notifications.add("You managed to hit another adventurer, I'm sure they're very happy for you.");
