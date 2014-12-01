@@ -66,10 +66,9 @@ public class ClientProxy {
 		--arrows;
 		if (arrows > 0) {
 			room.shoot(this);
+			sendNotifications(String.format("You have %d arrows remaining.", arrows));
 		} else {
-			ArrayList<String> notifications = new ArrayList<String>();
-			notifications.add("You are out of arrows");
-			sendNotifications(notifications);
+			sendNotifications("You are out of arrows");
 		}
 	}
 
