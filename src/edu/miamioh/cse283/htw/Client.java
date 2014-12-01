@@ -112,6 +112,7 @@ public class Client {
 						lastSenses.clear();
 
 					} else if (shoot.matches()) {
+						lastSenses.clear();
 						cave.shoot(shoot.group(1));
 
 					} else if (pickup.matches()) {
