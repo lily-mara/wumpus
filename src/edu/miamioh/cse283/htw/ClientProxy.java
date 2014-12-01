@@ -64,7 +64,13 @@ public class ClientProxy {
 	 */
 	public void shoot(Room room) {
 		--arrows;
-		room.shoot(this);
+		if (arrows > 0) {
+			room.shoot(this);
+		} else {
+			ArrayList<String> notifications = new ArrayList<String>();
+			notifications.add("You are out of arrows");
+			sendNotifications(notifications);
+		}
 	}
 
 	/**
