@@ -231,14 +231,14 @@ public class CaveServer {
 			if (action.matches()) {
 				int actionNumber = Integer.parseInt(action.group(1));
 				int roomNumber;
-				Room nextRoom;
+				Room tempRoom;
 
 				switch (actionNumber) {
 					case Protocol.MOVE:
 						roomNumber = Integer.parseInt(action.group(2));
-						nextRoom = client.getCurrentRoom().getRoom(roomNumber);
-						if (nextRoom != null) {
-							client.changeRoom(nextRoom);
+						tempRoom = client.getCurrentRoom().getRoom(roomNumber);
+						if (tempRoom != null) {
+							client.changeRoom(tempRoom);
 						} else {
 							notifications.add("Invalid room number.");
 						}
@@ -247,7 +247,7 @@ public class CaveServer {
 						break;
 					case Protocol.SHOOT:
 						roomNumber = Integer.parseInt(action.group(2));
-						nextRoom = getRoomByNumber(roomNumber);
+						tempRoom = getRoomByNumber(roomNumber);
 						break;
 					case Protocol.PICKUP:
 						break;
