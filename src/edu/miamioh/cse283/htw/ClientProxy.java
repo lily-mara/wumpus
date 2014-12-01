@@ -82,14 +82,21 @@ public class ClientProxy {
 	}
 
 	/**
-	 * Send a block message of notifications to the client.
+	 * Send notification messages to the client.
 	 */
-	public void sendNotifications(ArrayList<String> blockMsg) {
+	public void sendNotifications(String... notifications) {
 		out.println(Protocol.BEGIN_NOTIFICATION);
-		for (String i : blockMsg) {
+		for (String i : notifications) {
 			out.println(i);
 		}
 		out.println(Protocol.END_NOTIFICATION);
+	}
+
+	/**
+	 * Send a block message of notifications to the client.
+	 */
+	public void sendNotifications(ArrayList<String> blockMsg) {
+		sendNotifications(blockMsg.toArray(new String[blockMsg.size()]));
 	}
 
 	/**
