@@ -180,4 +180,6 @@ public class Protocol {
 	public static final Pattern HANDOFF_PATTERN = Pattern.compile("^HANDOFF\\s+(\\w+)\\s+(\\w+)$");
 	public static final Pattern CONNECT_PATTERN = Pattern.compile("^CONNECT\\s+(.+)$");
 	public static final Pattern REGISTER_PATTERN = Pattern.compile("^REGISTER\\s+(\\w+)\\s+(\\d+)\\s+(.+)$");
+
+	public static final int MAX_HOPS = 3;
 }

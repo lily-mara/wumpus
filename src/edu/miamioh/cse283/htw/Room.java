@@ -126,17 +126,19 @@ public class Room {
 	 * @param notifications the arraylist of notifications that should be sent to the player
 	 */
 	private void shoot(int hopCount, ArrayList<String> notifications) {
-		switch (contents) {
-			case OTHER_PLAYERS:
-				notifications.add("You managed to hit another adventurer, I'm sure they're very happy for you.");
-				break;
-			case WUMPUS:
-				notifications.add("You killed the Wumpus!!!");
-				break;
-			default:
-				notifications.add("Your arrow does not hit anything in room " + roomId);
-				randomConnectedRoom().shoot(hopCount + 1, notifications);
-				break;
+		if (hopCount > Protocol.MAX_HOPS) {
+			switch (contents) {
+				case OTHER_PLAYERS:
+					notifications.add("You managed to hit another adventurer, I'm sure they're very happy for you.");
+					break;
+				case WUMPUS:
+					notifications.add("You killed the Wumpus!!!");
+					break;
+				default:
+					notifications.add("Your arrow does not hit anything in room " + roomId);
+					randomConnectedRoom().shoot(hopCount + 1, notifications);
+					break;
+			}
 		}
 	}
 
