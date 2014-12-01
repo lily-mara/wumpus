@@ -97,6 +97,18 @@ public class Room {
 	}
 
 	/**
+	 * Returns a random Room connected to this Room
+	 *
+	 * @return
+	 */
+	private Room randomConnectedRoom() {
+		int size = connected.size();
+		int rand = Utils.random(size);
+		Room[] buffer = connected.toArray(new Room[size]);
+		return buffer[rand];
+	}
+
+	/**
 	 * Shoots an arrow into this room and notifies the client of the outcome.
 	 *
 	 * @param c the client to notify of the outcome of shooting
@@ -112,6 +124,7 @@ public class Room {
 				break;
 			default:
 				notifications.add("Your arrow does not hit anything in room " + roomId);
+				randomConnectedRoom().shoot(c);
 				break;
 		}
 		c.sendNotifications(notifications);
