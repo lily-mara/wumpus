@@ -9,6 +9,8 @@ public class Room {
 	public static final int HOLE = 2;
 	public static final int WUMPUS = 3;
 	public static final int OTHER_PLAYERS = 4;
+	public static final int GOLD = 5;
+	public static final int ARROWS = 6;
 
 	/**
 	 * Players currently in this room.
@@ -94,6 +96,10 @@ public class Room {
 				notifications.add("You hear the screeching of the bats, and they carry you off");
 				c.sendNotifications(notifications);
 				c.changeRoom(rooms.randomRoom(), false);
+				break;
+			case GOLD:
+				break;
+			case ARROWS:
 				break;
 		}
 	}
@@ -207,6 +213,12 @@ public class Room {
 					break;
 				case HOLE:
 					msg.add("You feel the rush of the wind");
+					break;
+				case GOLD:
+					msg.add("You see the sparkle of gold!");
+					break;
+				case ARROWS:
+					msg.add("You hear the clang of fresh arrows");
 					break;
 			}
 		}
