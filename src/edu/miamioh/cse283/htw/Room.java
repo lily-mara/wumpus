@@ -98,8 +98,10 @@ public class Room {
 				c.changeRoom(rooms.randomRoom(), false);
 				break;
 			case GOLD:
+				notifications.add("There is a steaming pile of GOLD in this room!");
 				break;
 			case ARROWS:
+				notifications.add("You look in the room to see 5 brand new arrows just sitting there!");
 				break;
 		}
 	}
