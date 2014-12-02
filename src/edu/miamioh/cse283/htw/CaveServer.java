@@ -140,13 +140,6 @@ public class CaveServer {
 		}
 
 		/**
-		 * Adds a message to the notifications.
-		 */
-		public synchronized void addNotification(String msg) {
-			notifications.add(msg);
-		}
-
-		/**
 		 * Returns and resets notification messages.
 		 */
 		public synchronized ArrayList<String> getNotifications() {
