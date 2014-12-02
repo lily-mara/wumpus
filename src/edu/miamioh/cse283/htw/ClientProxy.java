@@ -79,7 +79,7 @@ public class ClientProxy {
 	/**
 	 * Send a handoff message to this client.
 	 */
-	public void handoff(InetAddress addr, int port) throws IOException {
+	public void handoff(InetAddress addr, int port) {
 		String msg = Protocol.HANDOFF + " " + addr.getHostName() + " " + port;
 		out.println(msg);
 	}
