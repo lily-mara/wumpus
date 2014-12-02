@@ -117,7 +117,7 @@ public class Room {
 		c.shootArrow();
 		if (c.getArrows() > 0) {
 			ArrayList<String> notifications = new ArrayList<String>();
-			shoot(0, notifications);
+			shoot(c, 0, notifications);
 
 			notifications.add(String.format("You have %d arrows remaining.", c.getArrows()));
 			c.sendNotifications(notifications);
@@ -132,7 +132,7 @@ public class Room {
 	 * @param hopCount      the number of rooms that the arrow has already visited
 	 * @param notifications the arraylist of notifications that should be sent to the player
 	 */
-	private void shoot(int hopCount, ArrayList<String> notifications) {
+	private void shoot(ClientProxy c, int hopCount, ArrayList<String> notifications) {
 		if (hopCount < Protocol.MAX_HOPS) {
 			switch (contents) {
 				case OTHER_PLAYERS:
@@ -154,10 +154,13 @@ public class Room {
 					} while (r.contents != EMPTY && i < rooms.rooms.size());
 					r.contents = WUMPUS;
 
+					c.increaseScore(Protocol.WUMPUS_VALUE);
+					notifications.add(String.format("You now have %d gold", c.getScore()));
+
 					break;
 				default:
 					notifications.add("Your arrow does not hit anything in room " + roomId);
-					randomConnectedRoom().shoot(hopCount + 1, notifications);
+					randomConnectedRoom().shoot(c, hopCount + 1, notifications);
 					break;
 			}
 		}
