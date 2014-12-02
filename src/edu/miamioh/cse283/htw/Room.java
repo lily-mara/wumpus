@@ -11,6 +11,7 @@ public class Room {
 	public static final int OTHER_PLAYERS = 4;
 	public static final int GOLD = 5;
 	public static final int ARROWS = 6;
+	public static final int LADDER = 7;
 
 	/**
 	 * Players currently in this room.
@@ -103,6 +104,10 @@ public class Room {
 				break;
 			case ARROWS:
 				notifications.add("You look in the room to see 5 brand new arrows just sitting there!");
+				c.sendNotifications(notifications);
+				break;
+			case LADDER:
+				notifications.add("There is a ladder in this room. I wonder where it goes...");
 				c.sendNotifications(notifications);
 				break;
 		}
@@ -238,6 +243,9 @@ public class Room {
 					break;
 				case ARROWS:
 					msg.add("You hear the clang of fresh arrows");
+					break;
+				case LADDER:
+					msg.add("You see a light from above");
 					break;
 			}
 		}

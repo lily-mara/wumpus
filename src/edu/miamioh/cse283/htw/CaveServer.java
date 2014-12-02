@@ -48,7 +48,7 @@ public class CaveServer {
 		this.rng = new Random();
 
 		// locations for hazards
-		int[] hazards = Utils.nRand(7, 20);
+		int[] hazards = Utils.nRand(8, 20);
 
 		// construct the rooms:
 		rooms = new ArrayList<Room>();
@@ -69,6 +69,8 @@ public class CaveServer {
 				contents = Room.ARROWS;
 			} else if (i == hazards[6]) {
 				contents = Room.ARROWS;
+			} else if (i == hazards[7]) {
+				contents = Room.LADDER;
 			}
 
 			rooms.add(new Room(contents, this));
@@ -236,6 +238,15 @@ public class CaveServer {
 						// send a notification telling the player his score
 						// and some kind of congratulations, and then kill
 						// the player to end the game -- call kill(), above.
+
+						tempRoom = client.getCurrentRoom();
+						if (tempRoom.contents == Room.LADDER) {
+							tempRoom.leaveRoom(client);
+							String score = String.format("You fought well adventurer, and you earned %d gold!", client.getGold());
+							client.sendNotifications(score);
+						} else {
+							client.sendNotifications("There is no ladder in this room.");
+						}
 
 						break;
 					case Protocol.SHOOT:
