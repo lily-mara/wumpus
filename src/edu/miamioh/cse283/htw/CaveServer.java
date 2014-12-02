@@ -267,11 +267,12 @@ public class CaveServer {
 				}
 			} else if (line.startsWith(Protocol.QUIT)) {
 				// no response: drop gold and arrows, and break.
+				client.kill();
 				throw new ClientQuitException();
-
 			} else {
 				// invalid response; send the client some kind of error message
 				// (as a notificiation).
+				client.sendNotifications("ERROR Malformed request");
 			}
 		}
 	}
