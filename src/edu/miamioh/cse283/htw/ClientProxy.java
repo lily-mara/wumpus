@@ -29,7 +29,7 @@ public class ClientProxy {
 	private Room currentRoom;
 	private boolean alive;
 	private int arrows;
-	private int score;
+	private int gold;
 
 	/**
 	 * Constructor.
@@ -41,7 +41,7 @@ public class ClientProxy {
 			this.in = new BufferedReader(new InputStreamReader(s.getInputStream()));
 			this.alive = true;
 			this.arrows = Protocol.INITIAL_ARROWS;
-			score = 0;
+			gold = 0;
 		} catch (IOException ex) {
 			try {
 				s.close();
@@ -63,17 +63,23 @@ public class ClientProxy {
 		return arrows;
 	}
 
+	public void pickupArrows() {
+		arrows += Protocol.ROOM_ARROWS;
+		sendNotifications(String.format("You now have %d arrows!", arrows));
+	}
+
 	public void shootArrow() {
 		--arrows;
 	}
 
-	public void increaseScore(int delta) {
+	public void increaseGold(int delta) {
 		assert delta > 0;
-		score += delta;
+		gold += delta;
+		sendNotifications(String.format("You now have %d gold!", gold));
 	}
 
-	public int getScore() {
-		return score;
+	public int getGold() {
+		return gold;
 	}
 
 	/**
