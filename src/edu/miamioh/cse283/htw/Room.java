@@ -133,6 +133,20 @@ public class Room {
 					break;
 				case WUMPUS:
 					notifications.add("You killed the Wumpus!!!");
+
+					notifications.add("");
+					notifications.add("From the ashes, A new Wumpus is born.");
+					notifications.add("Before you can react, it dashes away into the caves.");
+					contents = EMPTY;
+					Room r;
+					int i = 0;
+
+					do {
+						r = rooms.randomRoom();
+						++i;
+					} while (r.contents != EMPTY && i < rooms.rooms.size());
+					r.contents = WUMPUS;
+
 					break;
 				default:
 					notifications.add("Your arrow does not hit anything in room " + roomId);
