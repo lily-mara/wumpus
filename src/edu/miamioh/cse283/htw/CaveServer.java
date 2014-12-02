@@ -48,9 +48,7 @@ public class CaveServer {
 		this.rng = new Random();
 
 		// locations for hazards
-		int[] hazards = Utils.nRand(3, 20);
-
-		int bats = -1, hole = -1, wumpus = -1;
+		int[] hazards = Utils.nRand(7, 20);
 
 		// construct the rooms:
 		rooms = new ArrayList<Room>();
@@ -63,21 +61,17 @@ public class CaveServer {
 				contents = Room.HOLE;
 			} else if (i == hazards[2]) {
 				contents = Room.BATS;
+			} else if (i == hazards[3]) {
+				contents = Room.GOLD;
+			} else if (i == hazards[4]) {
+				contents = Room.GOLD;
+			} else if (i == hazards[5]) {
+				contents = Room.ARROWS;
+			} else if (i == hazards[6]) {
+				contents = Room.ARROWS;
 			}
 
 			rooms.add(new Room(contents, this));
-
-			switch (contents) {
-				case Room.BATS:
-					bats = i;
-					break;
-				case Room.WUMPUS:
-					wumpus = i;
-					break;
-				case Room.HOLE:
-					hole = i;
-					break;
-			}
 		}
 
 		// connect them to each other:
@@ -95,10 +89,6 @@ public class CaveServer {
 			}
 			rooms.get(i).setIdNumber(r);
 		}
-
-		System.out.printf("Bats: %d\n", rooms.get(bats).getIdNumber());
-		System.out.printf("Wumpus: %d\n", rooms.get(wumpus).getIdNumber());
-		System.out.printf("Hole: %d\n", rooms.get(hole).getIdNumber());
 	}
 
 	public Room randomRoom() {
