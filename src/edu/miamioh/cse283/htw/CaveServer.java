@@ -249,6 +249,8 @@ public class CaveServer {
 						break;
 					case Protocol.PICKUP:
 						// pickup gold / arrows.
+						tempRoom = client.getCurrentRoom();
+						tempRoom.pickup(client);
 
 						break;
 				}
