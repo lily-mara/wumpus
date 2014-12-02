@@ -14,22 +14,22 @@ public class ClientProxy {
 	/**
 	 * This socket is connected to a client.
 	 */
-	protected Socket s;
+	private Socket s;
 
 	/**
 	 * Used to read from the client's socket.
 	 */
-	protected BufferedReader in;
+	private BufferedReader in;
 
 	/**
 	 * Used to write to the client's socket.
 	 */
-	protected PrintWriter out;
+	private PrintWriter out;
 
-	protected Room currentRoom;
-	protected boolean alive;
-	protected int arrows;
-	protected int score;
+	private Room currentRoom;
+	private boolean alive;
+	private int arrows;
+	private int score;
 
 	/**
 	 * Constructor.
