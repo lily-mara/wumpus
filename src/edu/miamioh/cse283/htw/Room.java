@@ -60,8 +60,10 @@ public class Room {
 	 * Connect room r to this room (bidirectional).
 	 */
 	public void connectRoom(Room r) {
-		connected.add(r);
-		r.connected.add(this);
+		if (r != this && !connected.contains(r)) {
+			connected.add(r);
+			r.connected.add(this);
+		}
 	}
 
 	/**
