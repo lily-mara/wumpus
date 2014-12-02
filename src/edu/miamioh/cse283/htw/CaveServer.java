@@ -223,7 +223,7 @@ public class CaveServer {
 						// and enter the new room: newRoom.enterRoom(client)
 						// send the client new senses here: client.sendSenses(r.getSensed());
 
-						roomNumber = Integer.parseInt(action.group(2));
+						roomNumber = Integer.parseInt(action.group(3));
 						tempRoom = client.getCurrentRoom().getRoom(roomNumber);
 						if (tempRoom != null) {
 							client.changeRoom(tempRoom);
@@ -243,7 +243,7 @@ public class CaveServer {
 						// is to be shot, and then send an arrow into the right series of
 						// rooms.
 
-						roomNumber = Integer.parseInt(action.group(2));
+						roomNumber = Integer.parseInt(action.group(3));
 						tempRoom = client.getCurrentRoom().getRoom(roomNumber);
 						tempRoom.shoot(client);
 						break;
