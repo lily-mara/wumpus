@@ -235,6 +235,11 @@ public class CaveServer {
 
 				switch (actionNumber) {
 					case Protocol.MOVE:
+						// move the player: split out the room number, move the player, etc.
+						// client has to leave the room: r.leaveRoom(client)
+						// and enter the new room: newRoom.enterRoom(client)
+						// send the client new senses here: client.sendSenses(r.getSensed());
+
 						roomNumber = Integer.parseInt(action.group(2));
 						tempRoom = client.getCurrentRoom().getRoom(roomNumber);
 						if (tempRoom != null) {
@@ -244,34 +249,26 @@ public class CaveServer {
 						}
 						break;
 					case Protocol.CLIMB:
+						// climb the ladder, if the player is in a room with a ladder.
+						// send a notification telling the player his score
+						// and some kind of congratulations, and then kill
+						// the player to end the game -- call kill(), above.
+
 						break;
 					case Protocol.SHOOT:
+						// shoot an arrow: split out the room number into which the arrow
+						// is to be shot, and then send an arrow into the right series of
+						// rooms.
+
 						roomNumber = Integer.parseInt(action.group(2));
 						tempRoom = client.getCurrentRoom().getRoom(roomNumber);
 						tempRoom.shoot(client);
 						break;
 					case Protocol.PICKUP:
+						// pickup gold / arrows.
+
 						break;
 				}
-				// move the player: split out the room number, move the player, etc.
-				// client has to leave the room: r.leaveRoom(client)
-				// and enter the new room: newRoom.enterRoom(client)
-				// send the client new senses here: client.sendSenses(r.getSensed());
-
-			} else if (line.startsWith(Protocol.SHOOT_ACTION)) {
-				// shoot an arrow: split out the room number into which the arrow
-				// is to be shot, and then send an arrow into the right series of
-				// rooms.
-
-			} else if (line.startsWith(Protocol.PICKUP_ACTION)) {
-				// pickup gold / arrows.
-
-			} else if (line.startsWith(Protocol.CLIMB_ACTION)) {
-				// climb the ladder, if the player is in a room with a ladder.
-				// send a notification telling the player his score
-				// and some kind of congratulations, and then kill
-				// the player to end the game -- call kill(), above.
-
 			} else if (line.startsWith(Protocol.QUIT)) {
 				// no response: drop gold and arrows, and break.
 				throw new ClientQuitException();
