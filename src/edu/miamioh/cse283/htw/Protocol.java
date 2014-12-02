@@ -184,4 +184,6 @@ public class Protocol {
 	public static final int MAX_HOPS = 3;
 	public static final int INITIAL_ARROWS = 5;
 	public static final int WUMPUS_VALUE = 20;
+	public static final int ROOM_GOLD = 5;
+	public static final int ROOM_ARROWS = 5;
 }
