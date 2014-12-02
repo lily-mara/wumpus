@@ -114,9 +114,16 @@ public class Room {
 	 * @param c the client to notify of the outcome of shooting
 	 */
 	public void shoot(ClientProxy c) {
-		ArrayList<String> notifications = new ArrayList<String>();
-		shoot(0, notifications);
-		c.sendNotifications(notifications);
+		c.shootArrow();
+		if (c.getArrows() > 0) {
+			ArrayList<String> notifications = new ArrayList<String>();
+			shoot(0, notifications);
+
+			notifications.add(String.format("You have %d arrows remaining.", c.getArrows()));
+			c.sendNotifications(notifications);
+		} else {
+			c.sendNotifications("You are out of arrows");
+		}
 	}
 
 	/**

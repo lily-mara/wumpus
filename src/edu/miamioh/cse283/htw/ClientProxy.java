@@ -57,19 +57,12 @@ public class ClientProxy {
 		s.close();
 	}
 
-	/**
-	 * Shoots an arrow into the given room
-	 *
-	 * @param room the Room in which to shoot
-	 */
-	public void shoot(Room room) {
+	public int getArrows() {
+		return arrows;
+	}
+
+	public void shootArrow() {
 		--arrows;
-		if (arrows > 0) {
-			room.shoot(this);
-			sendNotifications(String.format("You have %d arrows remaining.", arrows));
-		} else {
-			sendNotifications("You are out of arrows");
-		}
 	}
 
 	/**
