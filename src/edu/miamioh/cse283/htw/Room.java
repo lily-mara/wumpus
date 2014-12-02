@@ -106,6 +106,19 @@ public class Room {
 		}
 	}
 
+	public void pickup(ClientProxy c) {
+		switch (contents) {
+			case GOLD:
+				c.increaseGold(Protocol.ROOM_GOLD);
+				break;
+			case ARROWS:
+				c.pickupArrows();
+				break;
+			default:
+				c.sendNotifications("There is nothing to pick up here...");
+		}
+	}
+
 	/**
 	 * Returns a random Room connected to this Room
 	 *
@@ -164,8 +177,8 @@ public class Room {
 					} while (r.contents != EMPTY && i < rooms.rooms.size());
 					r.contents = WUMPUS;
 
-					c.increaseScore(Protocol.WUMPUS_VALUE);
-					notifications.add(String.format("You now have %d gold", c.getScore()));
+					c.increaseGold(Protocol.WUMPUS_VALUE);
+					notifications.add(String.format("You now have %d gold", c.getGold()));
 
 					break;
 				default:
