@@ -177,9 +177,6 @@ public class Protocol {
 	public static final String CLIMB_ACTION = ACTION + " " + CLIMB;
 
 	public static final Pattern ACTION_PATTERN = Pattern.compile("^ACTION\\s+([1-4])(\\s+(\\d+))?$");
-	public static final Pattern HANDOFF_PATTERN = Pattern.compile("^HANDOFF\\s+(\\w+)\\s+(\\w+)$");
-	public static final Pattern CONNECT_PATTERN = Pattern.compile("^CONNECT\\s+(.+)$");
-	public static final Pattern REGISTER_PATTERN = Pattern.compile("^REGISTER\\s+(\\w+)\\s+(\\d+)\\s+(.+)$");
 
 	public static final int MAX_HOPS = 3;
 	public static final int INITIAL_ARROWS = 5;
