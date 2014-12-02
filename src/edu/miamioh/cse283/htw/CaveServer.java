@@ -247,7 +247,7 @@ public class CaveServer {
 						break;
 					case Protocol.SHOOT:
 						roomNumber = Integer.parseInt(action.group(2));
-						tempRoom = getRoomByNumber(roomNumber);
+						tempRoom = client.getCurrentRoom().getRoom(roomNumber);
 						tempRoom.shoot(client);
 						break;
 					case Protocol.PICKUP:
