@@ -116,12 +116,15 @@ public class Client {
 						cave.shoot(shoot.group(1));
 
 					} else if (pickup.matches()) {
+						lastSenses.clear();
 						cave.pickup();
 
 					} else if (quit.matches()) {
+						lastSenses.clear();
 						alive = false;
 
 					} else if (climb.matches()) {
+						lastSenses.clear();
 						cave.climb();
 
 					} else {
