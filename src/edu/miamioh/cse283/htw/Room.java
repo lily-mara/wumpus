@@ -112,9 +112,11 @@ public class Room {
 		switch (contents) {
 			case GOLD:
 				c.increaseGold(Protocol.ROOM_GOLD);
+				contents = EMPTY;
 				break;
 			case ARROWS:
 				c.pickupArrows();
+				contents = EMPTY;
 				break;
 			default:
 				c.sendNotifications("There is nothing to pick up here...");
