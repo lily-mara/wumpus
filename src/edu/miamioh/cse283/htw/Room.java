@@ -117,6 +117,7 @@ public class Room {
 		switch (contents) {
 			case GOLD:
 				c.increaseGold(Protocol.ROOM_GOLD);
+				c.sendNotifications("You now have " + c.getGold() + " gold!");
 				contents = EMPTY;
 				break;
 			case ARROWS:

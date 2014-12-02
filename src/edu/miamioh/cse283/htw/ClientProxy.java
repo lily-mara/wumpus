@@ -75,7 +75,6 @@ public class ClientProxy {
 	public void increaseGold(int delta) {
 		assert delta > 0;
 		gold += delta;
-		sendNotifications(String.format("You now have %d gold!", gold));
 	}
 
 	public int getGold() {
