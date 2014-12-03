@@ -308,11 +308,13 @@ public class CaveServer {
 			InetAddress addr = InetAddress.getByName("localhost");
 			int cssPortBase = 1234;
 			int cavePortBase = 2000;
+			InetAddress localhost = InetAddress.getByName("localhost");
 
 			if (args.length > 0) {
 				addr = InetAddress.getByName(args[0]);
 				cssPortBase = Integer.parseInt(args[1]);
 				cavePortBase = Integer.parseInt(args[2]);
+				localhost = InetAddress.getByName(args[3]);
 			}
 
 			// first, we need our proxy object to the CaveSystemServer:

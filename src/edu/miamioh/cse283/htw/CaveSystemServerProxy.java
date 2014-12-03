@@ -13,6 +13,7 @@ public class CaveSystemServerProxy {
 	 * Used to write to the cave's socket.
 	 */
 	protected PrintWriter out;
+	private InetAddress localhost;
 
 	/**
 	 * Constructor.
@@ -34,7 +35,7 @@ public class CaveSystemServerProxy {
 	 * Register a cave server.
 	 */
 	public void register(ServerSocket s) throws IOException {
-		String msg = Protocol.REGISTER + " " + s.getInetAddress().getHostName() + " " + s.getLocalPort();
+		String msg = Protocol.REGISTER + " " + localhost.getHostAddress() + " " + s.getLocalPort();
 		out.println(msg);
 	}
 }

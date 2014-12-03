@@ -26,7 +26,7 @@ public class DevelServer {
 
 	public static class CaveServerDevel implements Runnable {
 		public void run() {
-			String[] caveServerArgs = {"localhost", "1234", "2000"};
+			String[] caveServerArgs = {"localhost", "1234", "2000", "localhost"};
 			try {
 				CaveServer.main(caveServerArgs);
 			} catch (Exception e) {
