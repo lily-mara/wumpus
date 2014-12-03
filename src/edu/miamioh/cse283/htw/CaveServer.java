@@ -318,7 +318,7 @@ public class CaveServer {
 			}
 
 			// first, we need our proxy object to the CaveSystemServer:
-			CaveSystemServerProxy caveSystem = new CaveSystemServerProxy(new Socket(addr, cssPortBase + 1));
+			CaveSystemServerProxy caveSystem = new CaveSystemServerProxy(new Socket(addr, cssPortBase + 1), localhost);
 
 			// now construct this cave server, and run it:
 			CaveServer cs = new CaveServer(caveSystem, cavePortBase);

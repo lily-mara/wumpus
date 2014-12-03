@@ -18,10 +18,11 @@ public class CaveSystemServerProxy {
 	/**
 	 * Constructor.
 	 */
-	public CaveSystemServerProxy(Socket s) throws IOException {
+	public CaveSystemServerProxy(Socket s, InetAddress localhost) throws IOException {
 		this.s = s;
 		try {
 			this.out = new PrintWriter(s.getOutputStream(), true);
+			this.localhost = localhost;
 		} catch (IOException ex) {
 			try {
 				s.close();
