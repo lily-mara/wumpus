@@ -244,6 +244,7 @@ public class CaveServer {
 							tempRoom.leaveRoom(client);
 							String score = String.format("You fought well adventurer, and you earned %d gold!", client.getGold());
 							client.sendNotifications(score);
+							client.kill();
 						} else {
 							client.sendNotifications("There is no ladder in this room.");
 						}
